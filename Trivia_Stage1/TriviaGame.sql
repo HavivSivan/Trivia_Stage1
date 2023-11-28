@@ -1,4 +1,5 @@
-﻿
+Create Database "Trivia";
+use Trivia
 CREATE TABLE Players (
   PlayerId INT PRIMARY KEY,
   Email VARCHAR(255),
