@@ -38,3 +38,11 @@ CREATE TABLE Questions (
   FOREIGN KEY (SubjectId)
   REFERENCES Subjects(SubjectId)
 );
+INSERT INTO Players (PlayerId, Email, PlayerName, Ranking, Points, QuestionsMade)
+VALUES (0, Admin@yahoo.com, Admin, 3, 0, 5),
+INSERT INTO Rank (RankId, RankName)
+VALUES (1, "Trainee")
+VALUES (2, "Master")
+VALUES (3, "Admin"),
+INSERT INTO Subjects (SubjectId, SubjectName)
+VALUES (1, "
