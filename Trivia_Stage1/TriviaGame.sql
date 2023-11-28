@@ -1,4 +1,4 @@
-
+﻿
 CREATE TABLE Players (
   PlayerId INT PRIMARY KEY,
   Email VARCHAR(255),
