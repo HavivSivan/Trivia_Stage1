@@ -1,4 +1,3 @@
-﻿CREATE DATABASE Trivia;
 
 CREATE TABLE Players (
   PlayerId INT PRIMARY KEY,
