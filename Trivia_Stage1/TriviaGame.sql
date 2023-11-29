@@ -39,10 +39,18 @@ CREATE TABLE Questions (
   REFERENCES Subjects(SubjectId)
 );
 INSERT INTO Players (Email, PlayerName, Ranking, Points, QuestionsMade)
-VALUES (Admin@yahoo.com, Admin, 3, 0, 5),
+  VALUES (Admin@yahoo.com, Admin, 3, 0, 5),
 INSERT INTO Rank (RankName)
-VALUES ("Trainee")
-VALUES ("Master")
-VALUES ("Admin"),
+  VALUES ("Trainee")
+INSERT INTO Rank (RankName)
+  VALUES ("Master")
+INSERT INTO Rank (RankName)
+  VALUES ("Admin")
 INSERT INTO Subjects (SubjectName)
-VALUES ("
+  VALUES ("Sports")
+INSERT INTO Subjects (SubjectName)
+  VALUES ("Politics")
+INSERT INTO Subjects (SubjectName)
+  VALUES ("History")
+INSERT INTO Subjects (SubjectName)
+  VALUES ("Science")
