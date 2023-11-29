@@ -39,7 +39,7 @@ CREATE TABLE Questions (
   REFERENCES Subjects(SubjectId)
 );
 INSERT INTO Players (Email, PlayerName, Ranking, Points, QuestionsMade)
-  VALUES (Admin@yahoo.com, 'Admin', 3, 0, 5)
+  VALUES ('Admin@yahoo.com', 'Admin', 3, 0, 5)
 INSERT INTO Rank (RankName)
   VALUES ('Trainee')
 INSERT INTO Rank (RankName)
@@ -60,3 +60,13 @@ INSERT INTO QuestionStatus (Status)
   VALUES ('Approved')
 INSERT INTO QuestionStatus (Status)
   VALUES ('Declined')
+INSERT INTO Questions (PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId
+  VALUES (1, '90 minutes', '43 minutes','80 minutes','110 minutes','How long is a soccer game?', 1)
+INSERT INTO Questions (PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId
+  VALUES (1, 'Barack Hussein Obama', 'Obama Care','Donald Johnathan Trump','George Herbert Walker Bush','Who was the 44th PotUS?', 2)
+INSERT INTO Questions (PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId
+  VALUES (1, 'THE DUTCH', 'THE BRITS','THE GERMANS','THE MURICANS','Who started the slave trade?', 3)
+INSERT INTO Questions (PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId
+  VALUES (1, '299 792 458','3x10^8 ','9x10^23','1','What is the speed of light? (m/s)', 4)
+INSERT INTO Questions (PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId
+  VALUES (1, '2005', '2003','2010','1995','When was Ramon high school established?', 5)
