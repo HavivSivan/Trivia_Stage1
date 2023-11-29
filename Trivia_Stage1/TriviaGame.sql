@@ -46,3 +46,4 @@ VALUES ("Master")
 VALUES ("Admin"),
 INSERT INTO Subjects (SubjectName)
 VALUES ("
+);
