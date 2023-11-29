@@ -1,7 +1,7 @@
 Create Database "Trivia";
 use Trivia
 CREATE TABLE Players (
-  PlayerId INT PRIMARY KEY,
+  PlayerId INT IDENTITY(0,1) PRIMARY KEY,
   Email VARCHAR(255),
   PlayerName VARCHAR(200),
   Ranking INT,
@@ -9,21 +9,21 @@ CREATE TABLE Players (
   QuestionsMade INT
 );
 CREATE TABLE Rank (
-  RankId INT PRIMARY KEY,
+  RankId INT IDENTITY(1,1) PRIMARY KEY,
   RankName VARCHAR(200)
 );
 
 CREATE TABLE QuestionStatus (
-  StatusId INT PRIMARY KEY,
+  StatusId INT IDENTITY(1,1) PRIMARY KEY,
   Status VARCHAR(200)
 );
 
 CREATE TABLE Subjects(
-  SubjectId INT PRIMARY KEY,
+  SubjectId INT IDENTITY(1,1) PRIMARY KEY,
   SubjectName VARCHAR(200)
 );
 CREATE TABLE Questions (
-  QuestionId INT PRIMARY KEY,
+  QuestionId INT IDENTITY(1,1) PRIMARY KEY,
   PlayerId INT,
   Correct VARCHAR(200),
   Incorrect1 VARCHAR(200),
@@ -38,11 +38,11 @@ CREATE TABLE Questions (
   FOREIGN KEY (SubjectId)
   REFERENCES Subjects(SubjectId)
 );
-INSERT INTO Players (PlayerId, Email, PlayerName, Ranking, Points, QuestionsMade)
-VALUES (0, Admin@yahoo.com, Admin, 3, 0, 5),
-INSERT INTO Rank (RankId, RankName)
-VALUES (1, "Trainee")
-VALUES (2, "Master")
-VALUES (3, "Admin"),
-INSERT INTO Subjects (SubjectId, SubjectName)
-VALUES (1, "
+INSERT INTO Players (Email, PlayerName, Ranking, Points, QuestionsMade)
+VALUES (Admin@yahoo.com, Admin, 3, 0, 5),
+INSERT INTO Rank (RankName)
+VALUES ("Trainee")
+VALUES ("Master")
+VALUES ("Admin"),
+INSERT INTO Subjects (SubjectName)
+VALUES ("
