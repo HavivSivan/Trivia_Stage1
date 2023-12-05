@@ -38,5 +38,10 @@ namespace Trivia_Stage1.Models
             }
             return null;
         }
+        public Question GetRandomQuestion()
+        {
+            Random rnd = new Random();
+            return this.Questions.Where(Question=>Question.QuestionId == rnd.Next(1, (this.Questions.Count()+1))).First();
+        }
     }
 }
