@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -47,11 +48,11 @@ namespace Trivia_Stage1.UI
             //A reference to the logged in user should be stored as a member variable
             //in this class! Example:
             //this.currentyPLayer == null
-
+            LoggedPlayer = null;
             //Loop through inputs until a user/player is created or 
             //user choose to go back to menu
-            char c = ' ';
-            while (c != 'B' && c != 'b' /*&& this.currentyPLayer == null*/)
+            bool signed=false;
+            while (!signed)
             {
                 //Clear screen
                 ClearScreenAndSetTitle("Signup");
@@ -89,29 +90,36 @@ namespace Trivia_Stage1.UI
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("Connecting to Server...");
                 Console.ResetColor();
-                /* Create instance of Business Logic and call the signup method
-                 * For example:
                 try
                 {
-                    TriviaDBContext db = new TriviaDBContext();
-                    this.currentyPLayer = db.SignUp(email, password, name);
+                    this.LoggedPlayer = Context.SignUp(name, password, email);
                 }
                 catch (Exception ex)
                 {
                 Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Failed to signup! Email may already exist in DB!");
+                    Console.WriteLine("Failed to signup! Email already exists!");
                 Console.ResetColor();
+                    Console.WriteLine("press enter to continue");
+                    Console.ReadLine();
                 }
-                
-                */
-
-                //Provide a proper message for example:
-                Console.WriteLine("Press (B)ack to go back or any other key to signup again...");
-                //Get another input from user
-                c = Console.ReadKey(true).KeyChar;
+                if (LoggedPlayer != null)
+                {
+                    Console.WriteLine("Sign up succesful press enter to continue");
+                    //Get another input from user
+                    Console.ReadLine();
+                    signed = true;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Failed to signup! Email already exists!");
+                    Console.ResetColor();
+                    Console.WriteLine("press enter to continue");
+                    Console.ReadLine();
+                }
             }
             //return true if signup suceeded!
-            return (false);
+            return true;
         }
 
         public void ShowAddQuestion()
@@ -188,12 +196,12 @@ namespace Trivia_Stage1.UI
 
         private bool IsPasswordValid(string password)
         {
-            return !string.IsNullOrEmpty(password) && password.Length >= 3;
+            return !string.IsNullOrEmpty(password) && password.Length >= 3&&password.Length<=20;
         }
 
         private bool IsNameValid(string name)
         {
-            return !string.IsNullOrEmpty(name) && name.Length >= 3;
+            return !string.IsNullOrEmpty(name) && name.Length >= 3&&name.Length<=30;
         }
     }
 }

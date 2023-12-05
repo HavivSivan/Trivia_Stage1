@@ -20,6 +20,25 @@ namespace Trivia_Stage1.Models
                 return null;
             }
         }
+        public Player SignUp(string username,string password,string email)
+        {
+            if(GetPlayerByEmail(email)!= null)
+            {
+                return null;
+            }
+            Player p = new Player() {Email=email,PlayerName=username,Password=password,Ranking=1,Points=0,QuestionsMade=0 };
+            try
+            {
+                this.Players.Add(p);
+                SaveChanges();
+                return p;
+            }
+            catch
+            {
+                return null;
+            }
+            return null;
+        }
         public Question GetRandomQuestion()
         {
             Random rnd = new Random();
