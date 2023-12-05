@@ -144,6 +144,7 @@ namespace Trivia_Stage1.UI
             {
                 Console.WriteLine("Oops, question could not generate");
             }
+            Console.WriteLine(question.QuestionText);
         }
         public void ShowProfile()
         {
