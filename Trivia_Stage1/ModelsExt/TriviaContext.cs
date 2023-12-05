@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,8 @@ namespace Trivia_Stage1.Models
         public Question GetRandomQuestion()
         {
             Random rnd = new Random();
-            return this.Questions.Where(Question=>Question.QuestionId == rnd.Next(1, (this.Questions.Count()+1))).First();
+            int questionId = rnd.Next(1, (this.Questions.Count() + 1))+5;
+            return this.Questions.Where(Question => Question.QuestionId == questionId).Include(q=>q.Subject).FirstOrDefault();
         }
     }
 }

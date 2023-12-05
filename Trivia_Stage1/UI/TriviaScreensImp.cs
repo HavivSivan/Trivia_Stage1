@@ -127,8 +127,15 @@ namespace Trivia_Stage1.UI
         }
         public void ShowGame()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+            Question question = Context.GetRandomQuestion();
+            try
+            {
+                Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}");
+            }
+            catch
+            {
+                Console.WriteLine("Oops, question could not generate");
+            }
         }
         public void ShowProfile()
         {
