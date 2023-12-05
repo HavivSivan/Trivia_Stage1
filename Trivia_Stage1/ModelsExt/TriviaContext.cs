@@ -12,5 +12,11 @@ namespace Trivia_Stage1.Models
         {
             return this.Players.Where(Player=>Player.Email==email).First();
         }
+        public Question GetRandomQuestion()
+        {
+            Random rnd = new Random();
+            int randomQuestion = rnd.Next(1, (this.Questions.Count() + 1));
+            return this.Questions.Where(Question=>Question.QuestionId == rnd.Next(1, (this.Questions.Count()+1)));
+        }
     }
 }
