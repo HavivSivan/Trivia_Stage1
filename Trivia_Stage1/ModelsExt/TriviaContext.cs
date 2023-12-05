@@ -10,7 +10,14 @@ namespace Trivia_Stage1.Models
     {
         public Player GetPlayerByEmail(string email)
         {
-            return this.Players.Where(Player=>Player.Email==email).First();
+            try
+            {
+                 return this.Players.Where(Player=>Player.Email==email).First();
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

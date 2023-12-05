@@ -18,6 +18,9 @@ public partial class Player
     [StringLength(200)]
     [Unicode(false)]
     public string? PlayerName { get; set; }
+    [StringLength(200)]
+    [Unicode(false)]
+    public string? Password { get; set; }
 
     public int? Ranking { get; set; }
 
