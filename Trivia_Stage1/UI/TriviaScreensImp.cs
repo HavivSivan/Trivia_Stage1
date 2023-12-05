@@ -19,8 +19,26 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+            LoggedPlayer = null;
+            bool logged=false;
+            while (!logged)
+            {
+                Console.Write("Please Type your email: ");
+                string email = Console.ReadLine();
+                LoggedPlayer=Context.GetPlayerByEmail(email);
+                Console.Write("Please Type your password: ");
+                string password= Console.ReadLine();
+                try
+                {
+                     if (LoggedPlayer.Password == password) logged = true;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Login failed please try again.");
+                    Console.ResetColor();
+                }
+            }
             return true;
         }
         public bool ShowSignUp()
