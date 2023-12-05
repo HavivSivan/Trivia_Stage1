@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Trivia_Stage1.Models;
 
 namespace Trivia_Stage1.UI
 {
@@ -12,7 +13,8 @@ namespace Trivia_Stage1.UI
 
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
-
+        public Player LoggedPlayer { get;private set; }
+        private TriviaContext Context = new TriviaContext();
 
         //Implememnt interface here
         public bool ShowLogin()
