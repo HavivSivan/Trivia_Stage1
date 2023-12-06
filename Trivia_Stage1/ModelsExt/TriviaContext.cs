@@ -56,25 +56,26 @@ namespace Trivia_Stage1.Models
                 return false;
             }
         }
-        public void AddQuestion(string text_, string correct_, string wrong1_, string wrong2_, string wrong3_, int PlayerId_, int subject_)
+        public void AddQuestion(string text_, string correct_, string wrong1_, string wrong2_, string wrong3_, Player player, int subject_)
         {
             try
             {
-                Question question = new Question() { PlayerId=PlayerId_, Correct=correct_, Incorrect1=wrong1_, Incorrect2 = wrong2_, Incorrect3 = wrong3_, QuestionText=text_, SubjectId=subject_, StatusId=1, };
+                Question question = new Question() { PlayerId=player.PlayerId, Correct=correct_, Incorrect1=wrong1_, Incorrect2 = wrong2_, Incorrect3 = wrong3_, QuestionText=text_, SubjectId=subject_, StatusId=1, };
                 this.Questions.Add(question);
+                player.Points = 0;
                 SaveChanges();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
         }
         public string GetRankByPlayer(Player player)
         {
-            return player.Rank.RankName;
+            return this.Ranks.Where(x=>x.RankId==player.Ranking).FirstOrDefault().RankName;
         }
         public Player GetPlayerByEmail(string email)
         {
             try
             {
-                 return this.Players.Where(Player=>Player.Email==email).First();
+                 return this.Players.Where(Player=>Player.Email==email).FirstOrDefault();
             }
             catch
             {
@@ -104,7 +105,7 @@ namespace Trivia_Stage1.Models
         {
             Random rnd = new Random();
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
-            return this.Questions.Where(Question => Question.QuestionId == questionId/* && Question.StatusId == 2*/).Include(q=>q.Subject).FirstOrDefault();
+            return this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
         }
         public Question GetPendingQuestion()
         {
@@ -115,6 +116,7 @@ namespace Trivia_Stage1.Models
             if (b) p.Points += 10;
             else p.Points -= 5;
             if (p.Points<0) p.Points = 0;
+            if (p.Points>100) p.Points = 100;
             SaveChanges();
         }
     }

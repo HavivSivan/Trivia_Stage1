@@ -125,19 +125,27 @@ namespace Trivia_Stage1.UI
         public void ShowAddQuestion()
         {
             ClearScreenAndSetTitle("Add Question");
-            Console.WriteLine("Please type your question.");
-            string text = Console.ReadLine();
-            Console.WriteLine("Please type the correct answer and then 3 wrong answers.");
-            string wrong1 = Console.ReadLine();
-            string wrong2 = Console.ReadLine();
-            string wrong3 = Console.ReadLine();
-            Console.WriteLine("Please type the subject of the question. (1-Sports, 2-Politics, 3-History, 4-Science, 5-Ramon");
-            int num; int.TryParse(Console.ReadLine(), out num);
-            Console.WriteLine("Please write the correct answer");
-            string right = Console.ReadLine();
-            Context.AddQuestion(text, right, wrong1, wrong2,wrong3, LoggedPlayer.PlayerId,num);
-            ShowLogin();
-            
+            if (LoggedPlayer.Points == 100)
+            {
+                Console.WriteLine("Please type your question.");
+                string text = Console.ReadLine();
+                Console.WriteLine("Please write the correct answer");
+                string right = Console.ReadLine();
+                Console.WriteLine("Please type 3 wrong answers.");
+                string wrong1 = Console.ReadLine();
+                string wrong2 = Console.ReadLine();
+                string wrong3 = Console.ReadLine();
+                Console.WriteLine("Please type the subject of the question. (1-Sports, 2-Politics, 3-History, 4-Science, 5-Ramon");
+                int num; int.TryParse(Console.ReadLine(), out num);
+                Context.AddQuestion(text, right, wrong1, wrong2, wrong3, LoggedPlayer, num);
+                Console.WriteLine("\nQuestion submitted successfully!");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                Console.WriteLine("Sorry, you do not have enough points to submit a question.");
+            }
+            Console.ReadKey(true);
         }
 
         public void ShowPendingQuestions()
@@ -293,7 +301,7 @@ namespace Trivia_Stage1.UI
             while (c=='p'||c=='u'||c=='e')
             {
                 //changing password
-                while(c == 'p')
+                if(c == 'p')
                 {
                     Console.Write("Please Type your new password: ");
                     string password = Console.ReadLine();
@@ -311,7 +319,7 @@ namespace Trivia_Stage1.UI
 
                 }
                 //changing username
-                while (c == 'u')
+                if (c == 'u')
                 {
                     Console.Write("Please Type your new Name: ");
                     string name = Console.ReadLine();
@@ -328,7 +336,7 @@ namespace Trivia_Stage1.UI
                     }
                 }
                 //changing email
-                while (c == 'e')
+                if (c == 'e')
                 {
                     Console.Write("Please Type your new email: ");
                     string email = Console.ReadLine();
