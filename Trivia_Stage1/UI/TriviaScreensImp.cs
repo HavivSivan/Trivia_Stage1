@@ -290,7 +290,8 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Password:"+LoggedPlayer.Password);
             Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To continue press anything else");
             char c = Console.ReadKey(true).KeyChar;
-            if(c == 'p')//changing password
+            //changing password
+            while(c == 'p')
             {
                 Console.Write("Please Type your new password: ");
                 string password = Console.ReadLine();
@@ -301,9 +302,45 @@ namespace Trivia_Stage1.UI
                     Console.ResetColor();
                     password = Console.ReadLine();
                 }
-
+                if (Context.ChangePassword(LoggedPlayer, password))
+                {
+                    c = ' ';
+                }
             }
-
+            //changing username
+            while (c == 'u')
+            {
+                Console.Write("Please Type your new Name: ");
+                string name = Console.ReadLine();
+                while (!IsNameValid(name))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("name must be at least 3 characters! Please try again: ");
+                    Console.ResetColor();
+                    name = Console.ReadLine();
+                }
+                if (Context.ChangeName(LoggedPlayer, name))
+                {
+                    c = ' ';
+                }
+            }
+            //changing email
+            while (c == 'e')
+            {
+                Console.Write("Please Type your new email: ");
+                string email = Console.ReadLine();
+                while (!IsEmailValid(email))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("Bad Email Format! Please try again:");
+                    Console.ResetColor();
+                    email = Console.ReadLine();
+                }
+                if (Context.ChangeEmail(LoggedPlayer, email))
+                {
+                    c = ' ';
+                }
+            }
         }
 
 
