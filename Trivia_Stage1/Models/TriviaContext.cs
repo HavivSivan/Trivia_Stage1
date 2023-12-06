@@ -45,6 +45,8 @@ public partial class TriviaContext : DbContext
             entity.HasOne(d => d.Player).WithMany(p => p.Questions).HasConstraintName("FK_PlayerId");
 
             entity.HasOne(d => d.Subject).WithMany(p => p.Questions).HasConstraintName("FK_SubjectId");
+
+            entity.HasOne(d => d.QuestionStatus).WithMany(p => p.Questions).HasConstraintName("FK_StatusId");
         });
 
         modelBuilder.Entity<QuestionStatus>(entity =>

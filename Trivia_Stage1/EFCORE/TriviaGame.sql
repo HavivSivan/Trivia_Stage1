@@ -35,6 +35,7 @@ CREATE TABLE Questions (
   Incorrect3 VARCHAR(200),
   QuestionText VARCHAR(200),
   SubjectId INT,
+  StatusId INT,
   CONSTRAINT FK_PlayerId 
   FOREIGN KEY (PlayerId)	
   REFERENCES Players(PlayerId),
@@ -61,6 +62,8 @@ INSERT INTO Subjects (SubjectName)
   VALUES ('History')
 INSERT INTO Subjects (SubjectName)
   VALUES ('Science')
+INSERT INTO Subjects (SubjectName)
+ VALUES ('Ramon')
 INSERT INTO QuestionStatus (Status)
   VALUES ('Pending')
 INSERT INTO QuestionStatus (Status)
@@ -78,6 +81,6 @@ INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Inc
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId)
   VALUES (4,0, '299 792 458','3x10^8 ','9x10^23','1','What is the speed of light? (m/s)', 4)
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId)
-  VALUES (5,0, '2005', '2003','2010','1995','When was Ramon high school established?', 3)
+  VALUES (5,0, '2005', '2003','2010','1995','When was Ramon high school established?', 5)
   SET IDENTITY_INSERT [Trivia].[dbo].[Questions]  Off 
 
