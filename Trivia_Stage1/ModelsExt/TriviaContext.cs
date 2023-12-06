@@ -9,6 +9,15 @@ namespace Trivia_Stage1.Models
 {
     public partial class TriviaContext
     {
+        public void AddQuestion(string text, string correct, string wrong1, string wrong2, string wrong3)
+        {
+            try
+            {
+                Question question = new Question();
+                this.Questions.Add()
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
+        }
         public Player GetPlayerByEmail(string email)
         {
             try

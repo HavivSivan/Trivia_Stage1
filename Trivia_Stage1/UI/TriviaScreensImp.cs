@@ -124,8 +124,17 @@ namespace Trivia_Stage1.UI
 
         public void ShowAddQuestion()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+            ClearScreenAndSetTitle("Add Question");
+            string[] strs = new string[4];
+            Console.WriteLine("Please type your question.")
+            strs[0] = Console.ReadLine();
+            Console.WriteLine("Please type the correct answer and then 3 wrong answers.")
+            strs[1] = Console.ReadLine();
+            strs[2] = Console.ReadLine();
+            strs[3] = Console.ReadLine();
+            Context.AddQuestion(strs[0], strs[1], strs[2], strs[3], LoggedPlayer.PlayerId);
+            ShowLogin();
+            
         }
 
         public void ShowPendingQuestions()
