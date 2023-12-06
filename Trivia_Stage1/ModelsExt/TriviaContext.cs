@@ -9,6 +9,53 @@ namespace Trivia_Stage1.Models
 {
     public partial class TriviaContext
     {
+        public bool ChangeEmail(Player player,string email_)
+        {
+            if (GetPlayerByEmail(email_) != null)
+            {
+                Console.WriteLine("Player with this email already exists");
+                return false;
+            }
+            try
+            {
+                player.Email = email_;
+                SaveChanges();
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("Something went wrng while changing the mail");
+                return false;
+            }
+        }
+        public bool ChangeName(Player player,string Name_)
+        {
+            try
+            {
+                player.PlayerName = Name_;
+                SaveChanges();
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("Something went wrng while changing the name");
+                return false;
+            }
+        }
+        public bool ChangePassword(Player player,string Password_)
+        {
+            try
+            {
+                player.Password = Password_;
+                SaveChanges();
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("Something went wrong while changing password");
+                return false;
+            }
+        }
         public void AddQuestion(string text_, string correct_, string wrong1_, string wrong2_, string wrong3_, int PlayerId_, int subject_)
         {
             try
@@ -57,7 +104,7 @@ namespace Trivia_Stage1.Models
         {
             Random rnd = new Random();
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
-            return this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
+            return this.Questions.Where(Question => Question.QuestionId == questionId/* && Question.StatusId == 2*/).Include(q=>q.Subject).FirstOrDefault();
         }
         public Question GetPendingQuestion()
         {

@@ -19,7 +19,7 @@ CREATE TABLE Players (
 
 CREATE TABLE QuestionStatus (
   StatusId INT IDENTITY(1,1) PRIMARY KEY,
-  Status VARCHAR(200)
+  [Status] VARCHAR(200)
 );
 
 CREATE TABLE Subjects(
