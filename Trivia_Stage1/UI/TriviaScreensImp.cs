@@ -135,41 +135,73 @@ namespace Trivia_Stage1.UI
         }
         public void ShowGame()
         {
-            Question question = Context.GetRandomQuestion();
-            try
+            bool isContinue = true;
+            while (isContinue)
             {
-                Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}");
-            }
-            catch
-            {
-                Console.WriteLine("Oops, question could not generate");
-            }
-            Console.WriteLine(question.QuestionText);
-            Random rnd = new Random();
-            int q = rnd.Next(2,5);
-            int locOfCorrect = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                switch (q)
+                ClearScreenAndSetTitle("Start Game");
+                Question question = Context.GetRandomQuestion();
+                try
                 {
-                    case 1:
-                        Console.WriteLine(question.Correct);
-                        locOfCorrect = i;
-                        break;
-                    case 2:
-                        Console.WriteLine(question.Incorrect1);
-                        break;
-                    case 3:
-                        Console.WriteLine(question.Incorrect2);
-                        break;
-                    case 4:
-                        Console.WriteLine(question.Incorrect3);
-                        break;
+                    Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}");
                 }
-                q++;
-                if (q > 4) q = 1;
+                catch
+                {
+                    Console.WriteLine("Oops, question could not generate");
+                }
+                Console.WriteLine(question.QuestionText);
+                Random rnd = new Random();
+                int q = rnd.Next(2, 5);
+                int locOfCorrect = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    switch (q)
+                    {
+                        case 1:
+                            Console.WriteLine($"{i + 1}. {question.Correct}");
+                            locOfCorrect = i + 1;
+                            break;
+                        case 2:
+                            Console.WriteLine($"{i + 1}. {question.Incorrect1}");
+                            break;
+                        case 3:
+                            Console.WriteLine($"{i + 1}. {question.Incorrect2}");
+                            break;
+                        case 4:
+                            Console.WriteLine($"{i + 1}. {question.Incorrect3}");
+                            break;
+                    }
+                    q++;
+                    if (q > 4) q = 1;
+                }
+                Console.WriteLine();
+                Console.WriteLine("Which is the correct answer? Write the number of the answer you think is correct.");
+                int answerLoc = 0;
+                while (!int.TryParse(Console.ReadLine(), out answerLoc))
+                {
+                    Console.WriteLine("Incorrect input. Please enter a number.");
+                }
+                bool isCorrect = true;
+                Console.WriteLine();
+                if (answerLoc == locOfCorrect)
+                {
+                    Console.WriteLine("Correct! :D");
+                }
+                else
+                {
+                    isCorrect = false;
+                    Console.WriteLine("Incorrect :(");
+                }
+                Context.ChangePoints(LoggedPlayer, isCorrect);
+                Console.WriteLine($"Current points: {LoggedPlayer.Points}");
+                Console.WriteLine();
+                Console.WriteLine("Press 'y' if you want to continue to another question. Press any other button to go back to the menu.");
+                var ch = Console.ReadKey();
+                if(!(ch.KeyChar=='y'|| ch.KeyChar=='Y'))
+                {
+                    isContinue = false;
+                }
             }
-            Console.ReadKey(true);
+            //Admin@yahoo.com
         }
         public void ShowProfile()
         {
