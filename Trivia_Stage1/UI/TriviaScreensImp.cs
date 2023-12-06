@@ -212,7 +212,22 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
             Console.WriteLine("Questions made:"+LoggedPlayer.QuestionsMade);
             Console.WriteLine("Password:"+LoggedPlayer.Password);
-            Console.WriteLine("To change the password press p, To change ");
+            Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To continue press anything else");
+            char c = Console.ReadKey(true).KeyChar;
+            if(c == 'p')//changing password
+            {
+                Console.Write("Please Type your new password: ");
+                string password = Console.ReadLine();
+                while (!IsPasswordValid(password))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("password must be at least 4 characters! Please try again: ");
+                    Console.ResetColor();
+                    password = Console.ReadLine();
+                }
+
+            }
+
         }
 
 
