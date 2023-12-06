@@ -21,14 +21,7 @@ namespace Trivia_Stage1.Models
         }
         public string GetRankByPlayer(Player player)
         {
-            try
-            {
-                  return player.Rank.RankName;
-            }
-            catch
-            {
-                return null;
-            }
+            return player.Rank.RankName;
         }
         public Player GetPlayerByEmail(string email)
         {
@@ -64,7 +57,11 @@ namespace Trivia_Stage1.Models
         {
             Random rnd = new Random();
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
-            return this.Questions.Where(Question => Question.QuestionId == questionId).Include(q=>q.Subject).FirstOrDefault();
+            return this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
+        }
+        public Question GetPendingQuestion()
+        {
+            return this.Questions.Where(Question => Question.StatusId == 1).Include(q=>q.Status).FirstOrDefault();
         }
         public void ChangePoints(Player p, bool b)
         {
