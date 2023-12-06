@@ -212,7 +212,7 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
             Console.WriteLine("Questions made:"+LoggedPlayer.QuestionsMade);
             Console.WriteLine("Password:"+LoggedPlayer.Password);
-            Console.WriteLine("To change the password press p, To");
+            Console.WriteLine("To change the password press p, To change ");
         }
 
 
