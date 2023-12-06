@@ -37,7 +37,10 @@ CREATE TABLE Questions (
   REFERENCES Players(PlayerId),
   CONSTRAINT FK_SubjectId
   FOREIGN KEY (SubjectId)
-  REFERENCES Subjects(SubjectId)
+  REFERENCES Subjects(SubjectId),
+  CONSTRAINT FK_StatusId
+  FOREIGN KEY (StatusId)
+  REFERENCES QuestionStatus(StatusId)
 );
 INSERT INTO Players (Email,[Password], PlayerName, Ranking, Points, QuestionsMade)
   VALUES ('Admin@yahoo.com','1234', 'Admin', 3, 0, 5)
