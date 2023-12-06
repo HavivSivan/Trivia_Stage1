@@ -177,10 +177,10 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Email:" + LoggedPlayer.Email);
             Console.WriteLine("Username:" + LoggedPlayer.PlayerName);
             Console.WriteLine("Total Points:"+LoggedPlayer.Points);
-            Console.WriteLine("Rank:"+);
-            Console.WriteLine();
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+            Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
+            Console.WriteLine("Questions made:"+LoggedPlayer.QuestionsMade);
+            Console.WriteLine("Password:"+LoggedPlayer.Password);
+            Console.WriteLine("To change the password press p, To");
         }
 
 

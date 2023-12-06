@@ -11,7 +11,14 @@ namespace Trivia_Stage1.Models
     {
         public string GetRankByPlayer(Player player)
         {
-            return this.Ranks.Where(x =>player.Ranking==x.RankId).;
+            try
+            {
+                  return player.Rank.RankName;
+            }
+            catch
+            {
+                return null;
+            }
         }
         public Player GetPlayerByEmail(string email)
         {
