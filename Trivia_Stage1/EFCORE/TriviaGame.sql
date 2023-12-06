@@ -8,6 +8,9 @@ CREATE TABLE Players (
   Ranking INT,
   Points INT,
   QuestionsMade INT
+  CONSTRAINT FK_Ranking 
+  FOREIGN KEY (Ranking)
+  REFERENCES Rank(RankId)
 );
 CREATE TABLE Rank (
   RankId INT IDENTITY(1,1) PRIMARY KEY,

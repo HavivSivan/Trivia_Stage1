@@ -20,6 +20,7 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
+            ClearScreenAndSetTitle("Login");
             LoggedPlayer = null;
             bool logged=false;
             Console.Write("Please Type your email: ");
@@ -172,6 +173,12 @@ namespace Trivia_Stage1.UI
         }
         public void ShowProfile()
         {
+            ClearScreenAndSetTitle("Profile");
+            Console.WriteLine("Email:" + LoggedPlayer.Email);
+            Console.WriteLine("Username:" + LoggedPlayer.PlayerName);
+            Console.WriteLine("Total Points:"+LoggedPlayer.Points);
+            Console.WriteLine("Rank:"+);
+            Console.WriteLine();
             Console.WriteLine("Not implemented yet! Press any key to continue...");
             Console.ReadKey(true);
         }
