@@ -28,6 +28,10 @@ public partial class Player
 
     public int? QuestionsMade { get; set; }
 
+    [ForeignKey("Ranking")]
+    [InverseProperty("Players")]
+    public virtual Rank? Rank { get; set; }
+
     [InverseProperty("Player")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
 }

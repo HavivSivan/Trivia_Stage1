@@ -8,6 +8,9 @@ CREATE TABLE Players (
   Ranking INT,
   Points INT,
   QuestionsMade INT
+  CONSTRAINT FK_Ranking 
+  FOREIGN KEY (Ranking)
+  REFERENCES Rank(RankId)
 );
 CREATE TABLE Rank (
   RankId INT IDENTITY(1,1) PRIMARY KEY,
@@ -37,7 +40,10 @@ CREATE TABLE Questions (
   REFERENCES Players(PlayerId),
   CONSTRAINT FK_SubjectId
   FOREIGN KEY (SubjectId)
-  REFERENCES Subjects(SubjectId)
+  REFERENCES Subjects(SubjectId),
+  CONSTRAINT FK_StatusId
+  FOREIGN KEY (StatusId)
+  REFERENCES QuestionStatus(StatusId)
 );
 INSERT INTO Players (Email,[Password], PlayerName, Ranking, Points, QuestionsMade)
   VALUES ('Admin@yahoo.com','1234', 'Admin', 3, 0, 5)
@@ -74,3 +80,4 @@ INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Inc
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId)
   VALUES (5,0, '2005', '2003','2010','1995','When was Ramon high school established?', 3)
   SET IDENTITY_INSERT [Trivia].[dbo].[Questions]  Off 
+

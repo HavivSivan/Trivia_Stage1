@@ -9,6 +9,10 @@ namespace Trivia_Stage1.Models
 {
     public partial class TriviaContext
     {
+        public string GetRankByPlayer(Player player)
+        {
+            return this.Ranks.Where(x =>player.Ranking==x.RankId).;
+        }
         public Player GetPlayerByEmail(string email)
         {
             try

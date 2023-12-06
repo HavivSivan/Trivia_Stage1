@@ -34,6 +34,8 @@ public partial class TriviaContext : DbContext
         modelBuilder.Entity<Player>(entity =>
         {
             entity.HasKey(e => e.PlayerId).HasName("PK__Players__4A4E74C8F86C5E7F");
+
+            entity.HasOne(d => d.Rank).WithMany(p => p.Players).HasConstraintName("FK_Ranking");
         });
 
         modelBuilder.Entity<Question>(entity =>
