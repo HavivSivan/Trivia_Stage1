@@ -22,25 +22,25 @@ namespace Trivia_Stage1.UI
         {
             LoggedPlayer = null;
             bool logged=false;
-            while (!logged)
+            Console.Write("Please Type your email: ");
+            string email = Console.ReadLine();
+            LoggedPlayer = Context.GetPlayerByEmail(email);
+            Console.Write("Please Type your password: ");
+            string password = Console.ReadLine();
+            try
             {
-                Console.Write("Please Type your email: ");
-                string email = Console.ReadLine();
-                LoggedPlayer=Context.GetPlayerByEmail(email);
-                Console.Write("Please Type your password: ");
-                string password= Console.ReadLine();
-                try
-                {
-                     if (LoggedPlayer.Password == password) logged = true;
-                }
-                catch
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Login failed please try again.");
-                    Console.ResetColor();
-                }
+                if (LoggedPlayer.Password == password) logged = true;
             }
-            return true;
+            catch
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Login failed please try again.");
+                Console.ResetColor();
+                Console.WriteLine("press enter to continue");
+                Console.ReadLine();
+                logged = false;
+            }
+            return logged;
         }
         public bool ShowSignUp()
         {
@@ -52,74 +52,73 @@ namespace Trivia_Stage1.UI
             //Loop through inputs until a user/player is created or 
             //user choose to go back to menu
             bool signed=false;
-            while (!signed)
+            //Clear screen
+            ClearScreenAndSetTitle("Signup");
+
+            Console.Write("Please Type your email: ");
+            string email = Console.ReadLine();
+            while (!IsEmailValid(email))
             {
-                //Clear screen
-                ClearScreenAndSetTitle("Signup");
-
-                Console.Write("Please Type your email: ");
-                string email = Console.ReadLine();
-                while (!IsEmailValid(email))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Bad Email Format! Please try again:");
-                    Console.ResetColor();
-                    email = Console.ReadLine();
-                }
-
-                Console.Write("Please Type your password: ");
-                string password = Console.ReadLine();
-                while (!IsPasswordValid(password))
-                {
-                    Console.ForegroundColor= ConsoleColor.Red;  
-                    Console.Write("password must be at least 4 characters! Please try again: ");
-                    Console.ResetColor();   
-                    password = Console.ReadLine();
-                }
-
-                Console.Write("Please Type your Name: ");
-                string name = Console.ReadLine();
-                while (!IsNameValid(name))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("name must be at least 3 characters! Please try again: ");
-                    Console.ResetColor();
-                    name = Console.ReadLine();
-                }
-
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("Connecting to Server...");
-                Console.ResetColor();
-                try
-                {
-                    this.LoggedPlayer = Context.SignUp(name, password, email);
-                }
-                catch (Exception ex)
-                {
                 Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Failed to signup! Email already exists!");
+                Console.Write("Bad Email Format! Please try again:");
                 Console.ResetColor();
-                    Console.WriteLine("press enter to continue");
-                    Console.ReadLine();
-                }
-                if (LoggedPlayer != null)
-                {
-                    Console.WriteLine("Sign up succesful press enter to continue");
-                    //Get another input from user
-                    Console.ReadLine();
-                    signed = true;
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Failed to signup! Email already exists!");
-                    Console.ResetColor();
-                    Console.WriteLine("press enter to continue");
-                    Console.ReadLine();
-                }
+                email = Console.ReadLine();
+            }
+
+            Console.Write("Please Type your password: ");
+            string password = Console.ReadLine();
+            while (!IsPasswordValid(password))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("password must be at least 4 characters! Please try again: ");
+                Console.ResetColor();
+                password = Console.ReadLine();
+            }
+
+            Console.Write("Please Type your Name: ");
+            string name = Console.ReadLine();
+            while (!IsNameValid(name))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("name must be at least 3 characters! Please try again: ");
+                Console.ResetColor();
+                name = Console.ReadLine();
+            }
+
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine("Connecting to Server...");
+            Console.ResetColor();
+            try
+            {
+                this.LoggedPlayer = Context.SignUp(name, password, email);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Failed to signup! Please try again next time");
+                Console.ResetColor();
+                Console.WriteLine("press enter to continue");
+                Console.ReadLine();
+                signed = false;
+            }
+            if (LoggedPlayer != null)
+            {
+                Console.WriteLine("Sign up succesful press enter to continue");
+                //Get another input from user
+                Console.ReadLine();
+                signed=true;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Failed to signup! Email already exists! Please try again next time");
+                Console.ResetColor();
+                Console.WriteLine("press enter to continue");
+                Console.ReadLine();
+                signed=false;
             }
             //return true if signup suceeded!
-            return true;
+            return signed;
         }
 
         public void ShowAddQuestion()
