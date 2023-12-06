@@ -45,5 +45,12 @@ namespace Trivia_Stage1.Models
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
             return this.Questions.Where(Question => Question.QuestionId == questionId).Include(q=>q.Subject).FirstOrDefault();
         }
+        public void ChangePoints(Player p, bool b)
+        {
+            if (b) p.Points += 10;
+            else p.Points -= 5;
+            if (p.Points<0) p.Points = 0;
+            SaveChanges();
+        }
     }
 }
