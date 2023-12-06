@@ -125,17 +125,17 @@ namespace Trivia_Stage1.UI
         public void ShowAddQuestion()
         {
             ClearScreenAndSetTitle("Add Question");
-            string[] strs = new string[4];
-            Console.WriteLine("Please type your question.")
-            strs[0] = Console.ReadLine();
-            Console.WriteLine("Please type the correct answer and then 3 wrong answers.")
-            strs[1] = Console.ReadLine();
-            strs[2] = Console.ReadLine();
-            strs[3] = Console.ReadLine();
+            Console.WriteLine("Please type your question.");
+            string text = Console.ReadLine();
+            Console.WriteLine("Please type the correct answer and then 3 wrong answers.");
+            string wrong1 = Console.ReadLine();
+            string wrong2 = Console.ReadLine();
+            string wrong3 = Console.ReadLine();
             Console.WriteLine("Please type the subject of the question. (1-Sports, 2-Politics, 3-History, 4-Science, 5-Ramon");
-
-            int num; int.TryParse(Console.ReadLine(),out num)
-            Context.AddQuestion(strs[0], strs[1], strs[2], strs[3], LoggedPlayer.PlayerId,num);
+            int num; int.TryParse(Console.ReadLine(), out num);
+            Console.WriteLine("Please write the correct answer");
+            string right = Console.ReadLine();
+            Context.AddQuestion(text, right, wrong1, wrong2,wrong3, LoggedPlayer.PlayerId,num);
             ShowLogin();
             
         }
