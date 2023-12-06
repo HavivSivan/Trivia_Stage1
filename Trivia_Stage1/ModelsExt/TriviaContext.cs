@@ -18,6 +18,10 @@ namespace Trivia_Stage1.Models
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
         }
+        public string GetRankByPlayer(Player player)
+        {
+            return this.Ranks.Where(x =>player.Ranking==x.RankId).FirstOrDefault();
+        }
         public Player GetPlayerByEmail(string email)
         {
             try
