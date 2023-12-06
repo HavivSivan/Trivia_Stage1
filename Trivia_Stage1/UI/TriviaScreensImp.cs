@@ -144,6 +144,31 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("Oops, question could not generate");
             }
             Console.WriteLine(question.QuestionText);
+            Random rnd = new Random();
+            int q = rnd.Next(2,5);
+            int locOfCorrect = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                switch (q)
+                {
+                    case 1:
+                        Console.WriteLine(question.Correct);
+                        locOfCorrect = i;
+                        break;
+                    case 2:
+                        Console.WriteLine(question.Incorrect1);
+                        break;
+                    case 3:
+                        Console.WriteLine(question.Incorrect2);
+                        break;
+                    case 4:
+                        Console.WriteLine(question.Incorrect3);
+                        break;
+                }
+                q++;
+                if (q > 4) q = 1;
+            }
+            Console.ReadKey(true);
         }
         public void ShowProfile()
         {

@@ -42,7 +42,7 @@ namespace Trivia_Stage1.Models
         public Question GetRandomQuestion()
         {
             Random rnd = new Random();
-            int questionId = rnd.Next(1, (this.Questions.Count() + 1))+5;
+            int questionId = rnd.Next(1, (this.Questions.Count() + 1));
             return this.Questions.Where(Question => Question.QuestionId == questionId).Include(q=>q.Subject).FirstOrDefault();
         }
     }
