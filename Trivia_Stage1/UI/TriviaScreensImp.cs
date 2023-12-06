@@ -288,58 +288,64 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
             Console.WriteLine("Questions made:"+LoggedPlayer.QuestionsMade);
             Console.WriteLine("Password:"+LoggedPlayer.Password);
-            Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To continue press anything else");
+            Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
             char c = Console.ReadKey(true).KeyChar;
-            //changing password
-            while(c == 'p')
+            while (c=='p'||c=='u'||c=='e')
             {
-                Console.Write("Please Type your new password: ");
-                string password = Console.ReadLine();
-                while (!IsPasswordValid(password))
+                //changing password
+                while(c == 'p')
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("password must be at least 4 characters! Please try again: ");
-                    Console.ResetColor();
-                    password = Console.ReadLine();
+                    Console.Write("Please Type your new password: ");
+                    string password = Console.ReadLine();
+                    while (!IsPasswordValid(password))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("password must be at least 4 characters! Please try again: ");
+                        Console.ResetColor();
+                        password = Console.ReadLine();
+                    }
+                    if (Context.ChangePassword(LoggedPlayer, password))
+                    {
+                        Console.WriteLine("Change succesful!");
+                    }
+
                 }
-                if (Context.ChangePassword(LoggedPlayer, password))
+                //changing username
+                while (c == 'u')
                 {
-                    c = ' ';
+                    Console.Write("Please Type your new Name: ");
+                    string name = Console.ReadLine();
+                    while (!IsNameValid(name))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("name must be at least 3 characters! Please try again: ");
+                        Console.ResetColor();
+                        name = Console.ReadLine();
+                    }
+                    if (Context.ChangeName(LoggedPlayer, name))
+                    {
+                        Console.WriteLine("Change succesful!");
+                    }
                 }
-            }
-            //changing username
-            while (c == 'u')
-            {
-                Console.Write("Please Type your new Name: ");
-                string name = Console.ReadLine();
-                while (!IsNameValid(name))
+                //changing email
+                while (c == 'e')
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("name must be at least 3 characters! Please try again: ");
-                    Console.ResetColor();
-                    name = Console.ReadLine();
+                    Console.Write("Please Type your new email: ");
+                    string email = Console.ReadLine();
+                    while (!IsEmailValid(email))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Bad Email Format! Please try again:");
+                        Console.ResetColor();
+                        email = Console.ReadLine();
+                    }
+                    if (Context.ChangeEmail(LoggedPlayer, email))
+                    {
+                        Console.WriteLine("Change succesful!");
+                    }
                 }
-                if (Context.ChangeName(LoggedPlayer, name))
-                {
-                    c = ' ';
-                }
-            }
-            //changing email
-            while (c == 'e')
-            {
-                Console.Write("Please Type your new email: ");
-                string email = Console.ReadLine();
-                while (!IsEmailValid(email))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Bad Email Format! Please try again:");
-                    Console.ResetColor();
-                    email = Console.ReadLine();
-                }
-                if (Context.ChangeEmail(LoggedPlayer, email))
-                {
-                    c = ' ';
-                }
+                Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
+                c = Console.ReadKey(true).KeyChar;
             }
         }
 
