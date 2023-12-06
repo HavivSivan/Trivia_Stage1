@@ -132,7 +132,10 @@ namespace Trivia_Stage1.UI
             strs[1] = Console.ReadLine();
             strs[2] = Console.ReadLine();
             strs[3] = Console.ReadLine();
-            Context.AddQuestion(strs[0], strs[1], strs[2], strs[3], LoggedPlayer.PlayerId);
+            Console.WriteLine("Please type the subject of the question. (1-Sports, 2-Politics, 3-History, 4-Science, 5-Ramon");
+
+            int num; int.TryParse(Console.ReadLine(),out num)
+            Context.AddQuestion(strs[0], strs[1], strs[2], strs[3], LoggedPlayer.PlayerId,num);
             ShowLogin();
             
         }

@@ -9,13 +9,14 @@ namespace Trivia_Stage1.Models
 {
     public partial class TriviaContext
     {
-        public void AddQuestion(string text, string correct, string wrong1, string wrong2, string wrong3)
+        public void AddQuestion(string text, string correct, string wrong1, string wrong2, string wrong3, int PlayerId, int subject)
         {
             try
             {
-                Question question = new Question();
-                this.Questions.Add()
+                Question question = new Question(PlayerId, correct, wrong1, wrong2, wrong3, text, subject, 1);
+                this.Questions.Add(question)
             }
+            SaveChanges();
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
         }
         public string GetRankByPlayer(Player player)
