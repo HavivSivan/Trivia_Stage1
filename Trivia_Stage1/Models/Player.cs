@@ -30,7 +30,7 @@ public partial class Player
 
     [ForeignKey("Ranking")]
     [InverseProperty("Players")]
-    public virtual int? RankId { get; set; }
+    public virtual Rank? Rank { get; set; }
 
     [InverseProperty("Player")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
