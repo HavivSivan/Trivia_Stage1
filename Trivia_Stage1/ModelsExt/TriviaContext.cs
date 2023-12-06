@@ -61,7 +61,7 @@ namespace Trivia_Stage1.Models
         }
         public Question GetPendingQuestion()
         {
-            return this.Questions.Where(Question => Question.StatusId == 1).Include(q=>q.Status).FirstOrDefault();
+            return this.Questions.Where(Question => Question.StatusId == 1).FirstOrDefault();
         }
         public void ChangePoints(Player p, bool b)
         {

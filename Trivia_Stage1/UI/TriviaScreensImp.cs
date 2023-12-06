@@ -145,64 +145,64 @@ namespace Trivia_Stage1.UI
             bool isContinue = true;
             while (isContinue)
             {
-                Question question = Context.GetRandomQuestion();
+                ClearScreenAndSetTitle("Pending Questions");
+                Question question = Context.GetPendingQuestion();
                 try
                 {
                     Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}");
                 }
                 catch
                 {
-                    Console.WriteLine("Oops, question could not generate");
+                    Console.WriteLine("No more questions are pending. Press any key to return to the menu");
+                    Console.ReadKey(true);
+                    return;
                 }
                 Console.WriteLine(question.QuestionText);
                 Random rnd = new Random();
                 int q = rnd.Next(2, 5);
-                int locOfCorrect = 0;
-                for (int i = 0; i < 4; i++)
+                Console.WriteLine($"{1}. {question.Correct} <- Correct Answer");
+                Console.WriteLine($"{2}. {question.Incorrect1}");
+                Console.WriteLine($"{3}. {question.Incorrect2}");
+                Console.WriteLine($"{4}. {question.Incorrect3}");
+                Console.WriteLine();
+                Console.WriteLine("Press 'y' if you want to approve the question. Press any other key to decline this question.");
+                var ch1 = Console.ReadKey();
+                Console.WriteLine();     
+                if ((ch1.KeyChar == 'y' || ch1.KeyChar == 'Y'))
                 {
-                    switch (q)
+                    Console.WriteLine("Are you sure you want to approve this question? Press 'y' to confirm. Press any other key to decline it instead.");
+                    var ch2 = Console.ReadKey();
+                    Console.WriteLine();
+                    if ((ch2.KeyChar == 'y' || ch2.KeyChar == 'Y'))
                     {
-                        case 1:
-                            Console.WriteLine($"{i + 1}. {question.Correct}");
-                            locOfCorrect = i + 1;
-                            break;
-                        case 2:
-                            Console.WriteLine($"{i + 1}. {question.Incorrect1}");
-                            break;
-                        case 3:
-                            Console.WriteLine($"{i + 1}. {question.Incorrect2}");
-                            break;
-                        case 4:
-                            Console.WriteLine($"{i + 1}. {question.Incorrect3}");
-                            break;
+                        question.StatusId = 2;
+                        Context.SaveChanges();
                     }
-                    q++;
-                    if (q > 4) q = 1;
-                }
-                Console.WriteLine();
-                Console.WriteLine("Which is the correct answer? Write the number of the answer you think is correct.");
-                int answerLoc = 0;
-                while (!int.TryParse(Console.ReadLine(), out answerLoc))
-                {
-                    Console.WriteLine("Incorrect input. Please enter a number.");
-                }
-                bool isCorrect = true;
-                Console.WriteLine();
-                if (answerLoc == locOfCorrect)
-                {
-                    Console.WriteLine("Correct! :D");
+                    else
+                    {
+                        question.StatusId = 3;
+                        Context.SaveChanges();
+                    }
                 }
                 else
                 {
-                    isCorrect = false;
-                    Console.WriteLine("Incorrect :(");
+                    Console.WriteLine("Are you sure you want to decline this question? Press 'y' to confirm. Press any other key to approve it instead.");
+                    var ch3 = Console.ReadKey();
+                    Console.WriteLine();
+                    if ((ch3.KeyChar == 'y' || ch3.KeyChar == 'Y'))
+                    {
+                        question.StatusId = 3;
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+                        question.StatusId = 2;
+                        Context.SaveChanges();
+                    }
                 }
-                Context.ChangePoints(LoggedPlayer, isCorrect);
-                Console.WriteLine($"Current points: {LoggedPlayer.Points}");
-                Console.WriteLine();
-                Console.WriteLine("Press 'y' if you want to continue to another question. Press any other button to go back to the menu.");
-                var ch = Console.ReadKey();
-                if (!(ch.KeyChar == 'y' || ch.KeyChar == 'Y'))
+                Console.WriteLine("Press 'y' if you want to continue to another pending question. Press any other button to go back to the menu.");
+                var ch4 = Console.ReadKey();
+                if (!(ch4.KeyChar == 'y' || ch4.KeyChar == 'Y'))
                 {
                     isContinue = false;
                 }
@@ -214,7 +214,7 @@ namespace Trivia_Stage1.UI
             bool isContinue = true;
             while (isContinue)
             {
-                ClearScreenAndSetTitle("Start Game");
+                ClearScreenAndSetTitle("Game");
                 Question question = Context.GetRandomQuestion();
                 try
                 {
