@@ -42,4 +42,8 @@ public partial class Question
     [ForeignKey("SubjectId")]
     [InverseProperty("Questions")]
     public virtual Subject? Subject { get; set; }
+    public Question(string text, string correct, string wrong1, string wrong2, string wrong3, int PlayerId, int subject)
+    {
+        this.QuestionText=text; this.Correct = correct; this.Incorrect1 = wrong1; this.Incorrect2= wrong2; this.Incorrect3= wrong3; this.SubjectId = subject;
+    }
 }
