@@ -35,9 +35,15 @@ public partial class Question
 
     public int? SubjectId { get; set; }
 
+    public int? StatusId { get; set; }
+
     [ForeignKey("PlayerId")]
     [InverseProperty("Questions")]
     public virtual Player? Player { get; set; }
+
+    [ForeignKey("StatusId")]
+    [InverseProperty("Questions")]
+    public virtual QuestionStatus? QuestionStatus { get; set; }
 
     [ForeignKey("SubjectId")]
     [InverseProperty("Questions")]
