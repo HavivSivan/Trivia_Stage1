@@ -148,16 +148,16 @@ namespace Trivia_Stage1.UI
             Console.ReadKey(true);
         }
 
-        public void ShowPendingQuestions()
+        public void ShowPendingQuestions() //made by ofek
         {
             bool isContinue = true;
-            while (isContinue)
+            while (isContinue) //as long as user wants to keep approving questions this loops
             {
                 ClearScreenAndSetTitle("Pending Questions");
-                Question question = Context.GetPendingQuestion();
+                Question question = Context.GetPendingQuestion(); //gets first pending question on the list
                 try
                 {
-                    Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}");
+                    Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}"); //prints the question's subject (if there are any pending questions remaining)
                 }
                 catch
                 {
@@ -165,9 +165,7 @@ namespace Trivia_Stage1.UI
                     Console.ReadKey(true);
                     return;
                 }
-                Console.WriteLine(question.QuestionText);
-                Random rnd = new Random();
-                int q = rnd.Next(2, 5);
+                Console.WriteLine(question.QuestionText); //prints the question's text and answers in order
                 Console.WriteLine($"{1}. {question.Correct} <- Correct Answer");
                 Console.WriteLine($"{2}. {question.Incorrect1}");
                 Console.WriteLine($"{3}. {question.Incorrect2}");
@@ -176,7 +174,7 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("Press 'y' if you want to approve the question. Press any other key to decline this question.");
                 var ch1 = Console.ReadKey();
                 Console.WriteLine();     
-                if ((ch1.KeyChar == 'y' || ch1.KeyChar == 'Y'))
+                if ((ch1.KeyChar == 'y' || ch1.KeyChar == 'Y')) //checks and confirms if user wants to approve/decline question, and changes question status id in database accordingly
                 {
                     Console.WriteLine("Are you sure you want to approve this question? Press 'y' to confirm. Press any other key to decline it instead.");
                     var ch2 = Console.ReadKey();
@@ -210,33 +208,33 @@ namespace Trivia_Stage1.UI
                 }
                 Console.WriteLine("Press 'y' if you want to continue to another pending question. Press any other button to go back to the menu.");
                 var ch4 = Console.ReadKey();
-                if (!(ch4.KeyChar == 'y' || ch4.KeyChar == 'Y'))
+                if (!(ch4.KeyChar == 'y' || ch4.KeyChar == 'Y')) //asks if user wants to keep approving questions, otherwise sends to menu
                 {
                     isContinue = false;
                 }
             }
             //Admin@yahoo.com
         }
-        public void ShowGame()
+        public void ShowGame() //made by ofek
         {
             bool isContinue = true;
-            while (isContinue)
+            while (isContinue) //as long as player wants to keep playing this loops
             {
                 ClearScreenAndSetTitle("Game");
-                Question question = Context.GetRandomQuestion();
+                Question question = Context.GetRandomQuestion(); //pulls random approved question from the database
                 try
                 {
-                    Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}");
+                    Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}"); //prints the question's subject
                 }
                 catch
                 {
                     Console.WriteLine("Oops, question could not generate");
                 }
-                Console.WriteLine(question.QuestionText);
+                Console.WriteLine(question.QuestionText); //prints the question's text
                 Random rnd = new Random();
                 int q = rnd.Next(2, 5);
                 int locOfCorrect = 0;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++) //prints the 4 answers in a "random" order and keeps the location of the correct answer
                 {
                     switch (q)
                     {
@@ -260,13 +258,13 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine();
                 Console.WriteLine("Which is the correct answer? Write the number of the answer you think is correct.");
                 int answerLoc = 0;
-                while (!int.TryParse(Console.ReadLine(), out answerLoc))
+                while (!int.TryParse(Console.ReadLine(), out answerLoc)) //filters inputs until player inputs an int
                 {
                     Console.WriteLine("Incorrect input. Please enter a number.");
                 }
                 bool isCorrect = true;
                 Console.WriteLine();
-                if (answerLoc == locOfCorrect)
+                if (answerLoc == locOfCorrect) //checks if int player inputted is the correct answer's location
                 {
                     Console.WriteLine("Correct! :D");
                 }
@@ -275,12 +273,12 @@ namespace Trivia_Stage1.UI
                     isCorrect = false;
                     Console.WriteLine("Incorrect :(");
                 }
-                Context.ChangePoints(LoggedPlayer, isCorrect);
-                Console.WriteLine($"Current points: {LoggedPlayer.Points}");
+                Context.ChangePoints(LoggedPlayer, isCorrect); //adds or subtracts the player's points based on if they were correct or not
+                Console.WriteLine($"Current points: {LoggedPlayer.Points}"); //displays the player's current points
                 Console.WriteLine();
                 Console.WriteLine("Press 'y' if you want to continue to another question. Press any other button to go back to the menu.");
                 var ch = Console.ReadKey();
-                if(!(ch.KeyChar=='y'|| ch.KeyChar=='Y'))
+                if(!(ch.KeyChar=='y'|| ch.KeyChar=='Y')) //if player wants to keep playing they can press y, otherwise it goes back to menu
                 {
                     isContinue = false;
                 }
