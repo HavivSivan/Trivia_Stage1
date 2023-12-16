@@ -17,6 +17,8 @@ CREATE TABLE Players (
   REFERENCES [Rank](RankId)
 );
 
+Scaffold-DbContext "Server = DESKTOP-JI7C9H0; Database=Trivia;
+Trusted_Connection=true; TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context TriviaContext –DataAnnotations -force
 CREATE TABLE QuestionStatus (
   StatusId INT IDENTITY(1,1) PRIMARY KEY,
   [Status] VARCHAR(200)
@@ -83,5 +85,3 @@ INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Inc
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
   VALUES (5,1, '2005', '2003','2010','1995','When was Ramon high school established?', 5,1)
   SET IDENTITY_INSERT [Trivia].[dbo].[Questions]  Off 
-  ALTER TABLE 
-

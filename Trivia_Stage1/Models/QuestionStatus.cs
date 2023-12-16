@@ -16,6 +16,6 @@ public partial class QuestionStatus
     [Unicode(false)]
     public string? Status { get; set; }
 
-    [InverseProperty("QuestionStatus")]
+    [InverseProperty("Status")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
 }

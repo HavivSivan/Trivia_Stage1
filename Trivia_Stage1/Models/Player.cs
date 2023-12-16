@@ -15,12 +15,13 @@ public partial class Player
     [Unicode(false)]
     public string? Email { get; set; }
 
+    [StringLength(255)]
+    [Unicode(false)]
+    public string? Password { get; set; }
+
     [StringLength(200)]
     [Unicode(false)]
     public string? PlayerName { get; set; }
-    [StringLength(200)]
-    [Unicode(false)]
-    public string? Password { get; set; }
 
     public int? Ranking { get; set; }
 
@@ -28,9 +29,10 @@ public partial class Player
 
     public int? QuestionsMade { get; set; }
 
-    [ForeignKey("Ranking")]
-    public virtual Rank? Rank { get; set; }
-
     [InverseProperty("Player")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
+
+    [ForeignKey("Ranking")]
+    [InverseProperty("Players")]
+    public virtual Rank? RankingNavigation { get; set; }
 }

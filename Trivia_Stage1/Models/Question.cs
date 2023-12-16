@@ -43,10 +43,9 @@ public partial class Question
 
     [ForeignKey("StatusId")]
     [InverseProperty("Questions")]
-    public virtual QuestionStatus? QuestionStatus { get; set; }
+    public virtual QuestionStatus? Status { get; set; }
 
     [ForeignKey("SubjectId")]
     [InverseProperty("Questions")]
     public virtual Subject? Subject { get; set; }
-
 }
