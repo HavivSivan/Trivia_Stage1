@@ -74,13 +74,17 @@ namespace Trivia_Stage1.Models
                 return false;
             }
         }
+        //<summary>
+        //Gets all of the question's info (including the player)
+        //adds the question to the database
+        //</summary>
         public void AddQuestion(string text_, string correct_, string wrong1_, string wrong2_, string wrong3_, Player player, int subject_)
         {
             try
             {
                 Question question = new Question() { PlayerId=player.PlayerId, Correct=correct_, Incorrect1=wrong1_, Incorrect2 = wrong2_, Incorrect3 = wrong3_, QuestionText=text_, SubjectId=subject_, StatusId=1, };
                 this.Questions.Add(question);
-                player.Points = 0;
+                
                 SaveChanges();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
@@ -138,16 +142,29 @@ namespace Trivia_Stage1.Models
                 throw new Exception("Sign up failed");
             }
         }
+        /// <summary>
+        /// gets a random approved question from the database
+        /// </summary>
+        /// <returns>a question</returns>
         public Question GetRandomQuestion()
         {
             Random rnd = new Random();
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
             return this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
         }
+        /// <summary>
+        /// gets the first question in the database that is pending
+        /// </summary>
+        /// <returns>a question</returns>
         public Question GetPendingQuestion()
         {
             return this.Questions.Where(Question => Question.StatusId == 1).FirstOrDefault();
         }
+        /// <summary>
+        /// Changes a player's points based on if they answered correctly or not
+        /// </summary>
+        /// <param name="p">the player</param>
+        /// <param name="b">true or false based on player's answer</param>
         public void ChangePoints(Player p, bool b)
         {
             if (b) p.Points += 10;
