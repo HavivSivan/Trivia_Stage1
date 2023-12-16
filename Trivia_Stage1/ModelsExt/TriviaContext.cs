@@ -76,7 +76,7 @@ namespace Trivia_Stage1.Models
         }
         //<summary>
         //Gets all of the question's info (including the player)
-        //adds the question to the database, resets the player's points
+        //adds the question to the database
         //</summary>
         public void AddQuestion(string text_, string correct_, string wrong1_, string wrong2_, string wrong3_, Player player, int subject_)
         {
@@ -84,7 +84,7 @@ namespace Trivia_Stage1.Models
             {
                 Question question = new Question() { PlayerId=player.PlayerId, Correct=correct_, Incorrect1=wrong1_, Incorrect2 = wrong2_, Incorrect3 = wrong3_, QuestionText=text_, SubjectId=subject_, StatusId=1, };
                 this.Questions.Add(question);
-                player.Points = 0;
+                
                 SaveChanges();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
