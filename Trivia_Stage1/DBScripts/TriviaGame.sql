@@ -83,5 +83,3 @@ INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Inc
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
   VALUES (5,1, '2005', '2003','2010','1995','When was Ramon high school established?', 5,1)
   SET IDENTITY_INSERT [Trivia].[dbo].[Questions]  Off 
-  ALTER TABLE 
-
