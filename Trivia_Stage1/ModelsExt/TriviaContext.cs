@@ -135,16 +135,29 @@ namespace Trivia_Stage1.Models
                 throw new Exception("Sign up failed");
             }
         }
+        /// <summary>
+        /// gets a random approved question from the database
+        /// </summary>
+        /// <returns>a question</returns>
         public Question GetRandomQuestion()
         {
             Random rnd = new Random();
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
             return this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
         }
+        /// <summary>
+        /// gets the first question in the database that is pending
+        /// </summary>
+        /// <returns>a question</returns>
         public Question GetPendingQuestion()
         {
             return this.Questions.Where(Question => Question.StatusId == 1).FirstOrDefault();
         }
+        /// <summary>
+        /// Changes a player's points based on if they answered correctly or not
+        /// </summary>
+        /// <param name="p">the player</param>
+        /// <param name="b">true or false based on player's answer</param>
         public void ChangePoints(Player p, bool b)
         {
             if (b) p.Points += 10;
