@@ -16,6 +16,6 @@ public partial class Rank
     [Unicode(false)]
     public string? RankName { get; set; }
 
-    [InverseProperty("RankingNavigation")]
+    [InverseProperty("Rank")]
     public virtual ICollection<Player> Players { get; } = new List<Player>();
 }

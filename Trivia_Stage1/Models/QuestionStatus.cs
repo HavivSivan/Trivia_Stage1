@@ -14,7 +14,7 @@ public partial class QuestionStatus
 
     [StringLength(200)]
     [Unicode(false)]
-    public string? Status { get; set; }
+    public string? StatusName { get; set; }
 
     [InverseProperty("Status")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
