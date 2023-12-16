@@ -129,7 +129,7 @@ namespace Trivia_Stage1.UI
         public void ShowAddQuestion()
         {
             ClearScreenAndSetTitle("Add Question");
-            if (LoggedPlayer.Points == 100)
+            if (LoggedPlayer.Points == 100)//if the player has enough points
             {
                 Console.WriteLine("Please type your question.");
                 string text = Console.ReadLine();
@@ -141,15 +141,19 @@ namespace Trivia_Stage1.UI
                 string wrong3 = Console.ReadLine();
                 Console.WriteLine("Please type the subject of the question. (1-Sports, 2-Politics, 3-History, 4-Science, 5-Ramon");
                 int num; int.TryParse(Console.ReadLine(), out num);
-                Context.AddQuestion(text, right, wrong1, wrong2, wrong3, LoggedPlayer, num);
-                Console.WriteLine("\nQuestion submitted successfully!");
-                Console.ReadKey(true);
+                //Gets all of the info for the question.
+                Context.AddQuestion(text, right, wrong1, wrong2, wrong3, LoggedPlayer, num); //adds the question
+                LoggedPlayer.Points=0;
+                Console.WriteLine("\nQuestion submitted successfully! Press any key to continue.");
+                Console.ReadKey(true);//end
             }
-            else
+            else //if the player doesn't have enough points
             {
-                Console.WriteLine("Sorry, you do not have enough points to submit a question.");
+                Console.WriteLine("Sorry, you do not have enough points to submit a question. Press any key to continue.");    
+                Console.ReadKey(true);//end
             }
-            Console.ReadKey(true);
+            
+            
         }
 
         public void ShowPendingQuestions() //made by ofek
