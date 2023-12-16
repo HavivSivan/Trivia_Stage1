@@ -165,12 +165,18 @@ namespace Trivia_Stage1.Models
         /// </summary>
         /// <param name="p">the player</param>
         /// <param name="b">true or false based on player's answer</param>
-        public void ChangePoints(Player p, bool b)
+        public void ChangePoints(Player player, bool isCorrect)
         {
-            if (b) p.Points += 10;
-            else p.Points -= 5;
-            if (p.Points<0) p.Points = 0;
-            if (p.Points>100) p.Points = 100;
+            if (isCorrect)
+            {
+                player.Points += 10;
+                if (player.Points>100) player.Points = 100;
+            }
+            else
+            {
+                player.Points -= 5;
+                if (player.Points<0) player.Points = 0;
+            }
             SaveChanges();
         }
     }
