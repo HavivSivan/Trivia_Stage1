@@ -9,17 +9,15 @@ CREATE TABLE Players (
   Email VARCHAR(255),
   [Password] varchar(255),
   PlayerName VARCHAR(200),
-  Ranking INT,
+  RankId INT,
   Points INT,
-  QuestionsMade INT
-  CONSTRAINT FK_Ranking 
-  FOREIGN KEY (Ranking)
+  CONSTRAINT FK_RankId
+  FOREIGN KEY (RankId)
   REFERENCES [Rank](RankId)
 );
-
 CREATE TABLE QuestionStatus (
   StatusId INT IDENTITY(1,1) PRIMARY KEY,
-  [Status] VARCHAR(200)
+  StatusName VARCHAR(200)
 );
 
 CREATE TABLE Subjects(
@@ -46,7 +44,7 @@ CREATE TABLE Questions (
   FOREIGN KEY (StatusId)
   REFERENCES QuestionStatus(StatusId)
 );
-INSERT INTO Players (Email,[Password], PlayerName, Ranking, Points, QuestionsMade)
+INSERT INTO Players (Email,[Password], PlayerName, RankId, Points, QuestionsMade)
   VALUES ('Admin@yahoo.com','1234', 'Admin', 3, 0, 5)
 INSERT INTO Rank (RankName)
   VALUES ('Trainee')
@@ -64,11 +62,11 @@ INSERT INTO Subjects (SubjectName)
   VALUES ('Science')
 INSERT INTO Subjects (SubjectName)
  VALUES ('Ramon')
-INSERT INTO QuestionStatus (Status)
+INSERT INTO QuestionStatus (StatusName)
   VALUES ('Pending')
-INSERT INTO QuestionStatus (Status)
+INSERT INTO QuestionStatus (StatusName)
   VALUES ('Approved')
-INSERT INTO QuestionStatus (Status)
+INSERT INTO QuestionStatus (StatusName)
   VALUES ('Declined')
   use Trivia
 SET IDENTITY_INSERT  [Trivia].[dbo].[Questions]  ON 
@@ -83,5 +81,3 @@ INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Inc
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
   VALUES (5,1, '2005', '2003','2010','1995','When was Ramon high school established?', 5,1)
   SET IDENTITY_INSERT [Trivia].[dbo].[Questions]  Off 
-  ALTER TABLE 
-

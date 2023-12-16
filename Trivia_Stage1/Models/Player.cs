@@ -27,8 +27,6 @@ public partial class Player
 
     public int? Points { get; set; }
 
-    public int? QuestionsMade { get; set; }
-
     [InverseProperty("Player")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
 
