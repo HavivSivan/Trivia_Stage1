@@ -9,9 +9,15 @@ namespace Trivia_Stage1.Models
 {
     public partial class TriviaContext
     {
+        /// <summary>
+        /// Changes the requested player's email
+        /// </summary>
+        /// <param name="player">The email of the player's email you want to changed</param>
+        /// <param name="email_">The email you want to change to</param>
+        /// <returns>false if email already exists or changing the email went worng. true if the email was updated successfully</returns>
         public bool ChangeEmail(Player player,string email_)
         {
-            if (GetPlayerByEmail(email_) != null)
+            if (GetPlayerByEmail(email_) != null)//checks if the mail already exists by using an earlier method
             {
                 Console.WriteLine("Player with this email already exists");
                 return false;
@@ -28,6 +34,12 @@ namespace Trivia_Stage1.Models
                 return false;
             }
         }
+        /// <summary>
+        /// Changes the requested player's name
+        /// </summary>
+        /// <param name="player">The name of the player's name you want to changed</param>
+        /// <param name="Name_">The name you want to change to</param>
+        /// <returns>false if changing the name went worng. true if the name was updated successfully</returns>
         public bool ChangeName(Player player,string Name_)
         {
             try
@@ -38,10 +50,16 @@ namespace Trivia_Stage1.Models
             }
             catch
             {
-                Console.WriteLine("Something went wrng while changing the name");
+                Console.WriteLine("Something went wrpng while changing the name");
                 return false;
             }
         }
+        /// <summary>
+        /// Changes the requested player's password
+        /// </summary>
+        /// <param name="player">The password of the player's password you want to changed</param>
+        /// <param name="Password_">The password you want to change to</param>
+        /// <returns>false if changing the password went worng. true if the password was updated successfully</returns>
         public bool ChangePassword(Player player,string Password_)
         {
             try
@@ -67,6 +85,11 @@ namespace Trivia_Stage1.Models
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
         }
+        /// <summary>
+        /// Gets the rankName of the requested player
+        /// </summary>
+        /// <param name="player">requested player</param>
+        /// <returns>a string that is the player's rank</returns>
         public string GetRankByPlayer(Player player)
         {
             return this.Ranks.Where(x=>x.RankId==player.Ranking).FirstOrDefault().RankName;
@@ -82,14 +105,22 @@ namespace Trivia_Stage1.Models
                 return null;
             }
         }
+        /// <summary>
+        /// Signs up a new player
+        /// </summary>
+        /// <param name="username">specified valid player</param>
+        /// <param name="password">specified valid password</param>
+        /// <param name="email">specified valid email</param>
+        /// <returns>The signed up player</returns>
+        /// <exception cref="Exception">Throws an exception if the signup failed in any way. email already exists or anything else</exception>
         public Player SignUp(string username,string password,string email)
         {
-            if(GetPlayerByEmail(email)!= null)
+            if(GetPlayerByEmail(email)!= null)//checks if a player with this email already exists
             {
-                return null;
+                throw new Exception("Email already exists");
             }
             Player p = new Player() {Email=email,PlayerName=username,Password=password,Ranking=1,Points=0,QuestionsMade=0 };
-            try
+            try//if adding the new player fails
             {
                 this.Players.Add(p);
                 SaveChanges();
@@ -97,9 +128,8 @@ namespace Trivia_Stage1.Models
             }
             catch
             {
-                return null;
+                throw new Exception("Sign up failed");
             }
-            return null;
         }
         public Question GetRandomQuestion()
         {

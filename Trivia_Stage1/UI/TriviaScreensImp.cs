@@ -18,24 +18,38 @@ namespace Trivia_Stage1.UI
         private TriviaContext Context = new TriviaContext();
 
         //Implememnt interface here
-        public bool ShowLogin()
+        public bool ShowLogin()//Made by Idan
         {
             ClearScreenAndSetTitle("Login");
-            LoggedPlayer = null;
-            bool logged=false;
+            LoggedPlayer = null;//Logs out logged user
+            bool logged=false;//This bool is the bool that will be returned at the end of the screen depending if the login was succesful or not
             Console.Write("Please Type your email: ");
-            string email = Console.ReadLine();
-            LoggedPlayer = Context.GetPlayerByEmail(email);
+            string email = Console.ReadLine();//Gets the email from the user
+            LoggedPlayer = Context.GetPlayerByEmail(email);//this method gets a string and returns a player with this email, if there isn't one it returns null
+            //we can use the return of the null and try to try and put the password in
+            //and if the player is null ity will throw an exception that will be caught by the try and tell the user the login failed
             Console.Write("Please Type your password: ");
-            string password = Console.ReadLine();
+            string password = Console.ReadLine();//gets the password from the user
             try
             {
-                if (LoggedPlayer.Password == password) logged = true;
+                if (LoggedPlayer.Password == password) logged = true;//checks if the password of the playerByEmail is the same as teh inputed password
+                //if not the loggin will fail
+                //and if the player is null (player with this email does not exist or something else(why try is great!)) 
+                //the login will also fail by catching the exception
+                else//I thought about writing password is wrong but that will be stupid
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Login failed please try again later.");
+                    Console.ResetColor();
+                    Console.WriteLine("press enter to continue");
+                    Console.ReadLine();
+                    logged = false;
+                }
             }
-            catch
+            catch//Here the exception is caught and the login fails
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Login failed please try again.");
+                Console.WriteLine("Login failed please try again later.");
                 Console.ResetColor();
                 Console.WriteLine("press enter to continue");
                 Console.ReadLine();
@@ -43,7 +57,7 @@ namespace Trivia_Stage1.UI
             }
             return logged;
         }
-        public bool ShowSignUp()
+        public bool ShowSignUp()//made by Idan
         {
             //Logout user if anyone is logged in!
             //A reference to the logged in user should be stored as a member variable
@@ -52,13 +66,13 @@ namespace Trivia_Stage1.UI
             LoggedPlayer = null;
             //Loop through inputs until a user/player is created or 
             //user choose to go back to menu
-            bool signed=false;
+            bool signed=false; //this bool indicates if the signup went succesfully or not
             //Clear screen
             ClearScreenAndSetTitle("Signup");
 
             Console.Write("Please Type your email: ");
-            string email = Console.ReadLine();
-            while (!IsEmailValid(email))
+            string email = Console.ReadLine();//gets the email from the user
+            while (!IsEmailValid(email))//checks if the email is valid
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("Bad Email Format! Please try again:");
@@ -67,8 +81,8 @@ namespace Trivia_Stage1.UI
             }
 
             Console.Write("Please Type your password: ");
-            string password = Console.ReadLine();
-            while (!IsPasswordValid(password))
+            string password = Console.ReadLine();//gets the password from the user
+            while (!IsPasswordValid(password))//checks if the password is valid
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("password must be at least 4 characters! Please try again: ");
@@ -77,8 +91,8 @@ namespace Trivia_Stage1.UI
             }
 
             Console.Write("Please Type your Name: ");
-            string name = Console.ReadLine();
-            while (!IsNameValid(name))
+            string name = Console.ReadLine();//gets the name from the suer
+            while (!IsNameValid(name))//cehcks if the name is valid
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("name must be at least 3 characters! Please try again: ");
@@ -89,36 +103,26 @@ namespace Trivia_Stage1.UI
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine("Connecting to Server...");
             Console.ResetColor();
-            try
+            try//try is used here in case of an exception and the signup not working
             {
-                this.LoggedPlayer = Context.SignUp(name, password, email);
+                this.LoggedPlayer = Context.SignUp(name, password, email);//this method adds the new player to the database and saves chenges
+                //if the email already exists or any other exception happens the method throws an according exception
+                //which is caught here and written for the user to know
+                //if no exception is caught untill here sign up then was successful
+                Console.WriteLine("Sign up succesful press enter to continue");
+                Console.ReadLine();
+                signed = true;//here signup was successful
             }
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to signup! Please try again next time");
+                Console.Write(ex.Message);//based on exception thrown by SignUp method
+                Console.WriteLine("!Please try again next time");
                 Console.ResetColor();
                 Console.WriteLine("press enter to continue");
                 Console.ReadLine();
-                signed = false;
+                signed = false;//here signup was unsuccessful
             }
-            if (LoggedPlayer != null)
-            {
-                Console.WriteLine("Sign up succesful press enter to continue");
-                //Get another input from user
-                Console.ReadLine();
-                signed=true;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to signup! Email already exists! Please try again next time");
-                Console.ResetColor();
-                Console.WriteLine("press enter to continue");
-                Console.ReadLine();
-                signed=false;
-            }
-            //return true if signup suceeded!
             return signed;
         }
 
@@ -285,24 +289,29 @@ namespace Trivia_Stage1.UI
             }
             //Admin@yahoo.com
         }
-        public void ShowProfile()
+        public void ShowProfile()//made by Idan
         {
             ClearScreenAndSetTitle("Profile");
+            //displays all of the logged players properties(as requested)
             Console.WriteLine("Email:" + LoggedPlayer.Email);
             Console.WriteLine("Username:" + LoggedPlayer.PlayerName);
             Console.WriteLine("Total Points:"+LoggedPlayer.Points);
+            //because of the ranking being a foreign key to the table of rank names ther was a need for another method which gets the rank name by the player's rankId
             Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
             Console.WriteLine("Questions made:"+LoggedPlayer.QuestionsMade);
             Console.WriteLine("Password:"+LoggedPlayer.Password);
             Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
+            //asks the user if it wants to changed the email, password or username of their account
             char c = Console.ReadKey(true).KeyChar;
-            while (c=='p'||c=='u'||c=='e')
+            while (c=='p'||c=='u'||c=='e')//this is a while and not an if because of the possibility that the player wants to change multiple attributes
             {
                 //changing password
                 if(c == 'p')
                 {
                     Console.Write("Please Type your new password: ");
                     string password = Console.ReadLine();
+                    //gets a password from the player and checks if it's valid or not
+                    //like it was done in the sign up
                     while (!IsPasswordValid(password))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -310,7 +319,9 @@ namespace Trivia_Stage1.UI
                         Console.ResetColor();
                         password = Console.ReadLine();
                     }
+                    //this method is a bool that changes the logged player's password and saves changes and returns true if it was changed
                     if (Context.ChangePassword(LoggedPlayer, password))
+                        
                     {
                         Console.WriteLine("Change succesful!");
                     }
@@ -321,6 +332,8 @@ namespace Trivia_Stage1.UI
                 {
                     Console.Write("Please Type your new Name: ");
                     string name = Console.ReadLine();
+                    //gets a name from the player and checks if it's valid or not
+                    //like it was done in the sign up
                     while (!IsNameValid(name))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -328,6 +341,7 @@ namespace Trivia_Stage1.UI
                         Console.ResetColor();
                         name = Console.ReadLine();
                     }
+                    //this method is a bool that changes the logged player's name and saves changes and returns true if it was changed
                     if (Context.ChangeName(LoggedPlayer, name))
                     {
                         Console.WriteLine("Change succesful!");
@@ -338,6 +352,8 @@ namespace Trivia_Stage1.UI
                 {
                     Console.Write("Please Type your new email: ");
                     string email = Console.ReadLine();
+                    //gets an email from the player and checks if it's valid or not
+                    //like it was done in the sign up
                     while (!IsEmailValid(email))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -345,11 +361,14 @@ namespace Trivia_Stage1.UI
                         Console.ResetColor();
                         email = Console.ReadLine();
                     }
+                    //this method is a bool that changes the logged player's email and saves changes and returns true if it was changed
+                    //also returns false if a player with this email already exists
                     if (Context.ChangeEmail(LoggedPlayer, email))
                     {
                         Console.WriteLine("Change succesful!");
                     }
                 }
+                //here the user has an option to change something again or exit the screen
                 Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
                 c = Console.ReadKey(true).KeyChar;
             }
