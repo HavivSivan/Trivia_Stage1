@@ -74,6 +74,10 @@ namespace Trivia_Stage1.Models
                 return false;
             }
         }
+        //<summary>
+        //Gets all of the question's info (including the player)
+        //adds the question to the database, resets the player's points
+        //</summary>
         public void AddQuestion(string text_, string correct_, string wrong1_, string wrong2_, string wrong3_, Player player, int subject_)
         {
             try
