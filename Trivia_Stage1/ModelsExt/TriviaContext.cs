@@ -92,7 +92,14 @@ namespace Trivia_Stage1.Models
         /// <returns>a string that is the player's rank</returns>
         public string GetRankByPlayer(Player player)
         {
-            return this.Ranks.Where(x=>x.RankId==player.Ranking).FirstOrDefault().RankName;
+            try
+            {
+              return this.Ranks.Where(x=>x.RankId==player.RankId).FirstOrDefault().RankName;
+            }
+            catch
+            {
+                return null;
+            }
         }
         public Player GetPlayerByEmail(string email)
         {
@@ -119,7 +126,7 @@ namespace Trivia_Stage1.Models
             {
                 throw new Exception("Email already exists");
             }
-            Player p = new Player() {Email=email,PlayerName=username,Password=password,Ranking=1,Points=0,QuestionsMade=0 };
+            Player p = new Player() {Email=email,PlayerName=username,Password=password,RankId=1,Points=0,QuestionsMade=0 };
             try//if adding the new player fails
             {
                 this.Players.Add(p);

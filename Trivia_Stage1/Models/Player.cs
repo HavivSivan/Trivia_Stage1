@@ -23,7 +23,7 @@ public partial class Player
     [Unicode(false)]
     public string? PlayerName { get; set; }
 
-    public int? Ranking { get; set; }
+    public int? RankId { get; set; }
 
     public int? Points { get; set; }
 
@@ -32,7 +32,7 @@ public partial class Player
     [InverseProperty("Player")]
     public virtual ICollection<Question> Questions { get; } = new List<Question>();
 
-    [ForeignKey("Ranking")]
+    [ForeignKey("RankId")]
     [InverseProperty("Players")]
-    public virtual Rank? RankingNavigation { get; set; }
+    public virtual Rank? Rank { get; set; }
 }
