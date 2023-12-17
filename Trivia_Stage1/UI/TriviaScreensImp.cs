@@ -143,7 +143,10 @@ namespace Trivia_Stage1.UI
                 int num; int.TryParse(Console.ReadLine(), out num);
                 //Gets all of the info for the question.
                 Context.AddQuestion(text, right, wrong1, wrong2, wrong3, LoggedPlayer, num); //adds the question
-                LoggedPlayer.Points=0;
+                if(Context.QuestionsMadeByPlayer(LoggedPlayer)>=10)
+                {
+                    Context.AdvanceRank(LoggedPlayer);
+                }
                 Console.WriteLine("\nQuestion submitted successfully! Press any key to continue.");
                 Console.ReadKey(true);//end
             }
@@ -159,6 +162,13 @@ namespace Trivia_Stage1.UI
         public void ShowPendingQuestions() //made by ofek
         {
             bool isContinue = true;
+            if (LoggedPlayer.RankId == 1)//if the logged player is a rookie
+            {
+                isContinue = false;
+                Console.WriteLine(Context.GetRankByPlayer(LoggedPlayer) + " can't approve a question in this rank. progress ranks to approve questions");
+                Console.WriteLine("press any key to continue");
+                Console.ReadKey(true);
+            }
             while (isContinue) //as long as user wants to keep approving questions this loops
             {
                 ClearScreenAndSetTitle("Pending Questions");
@@ -233,12 +243,12 @@ namespace Trivia_Stage1.UI
                 try
                 {
                     Console.WriteLine($"Question subject: {this.Context.Subjects.Where(Subject => Subject.SubjectId == question.SubjectId).First().SubjectName}"); //prints the question's subject
+                    Console.WriteLine(question.QuestionText); //prints the question's text
                 }
                 catch
                 {
                     Console.WriteLine("Oops, question could not generate");
                 }
-                Console.WriteLine(question.QuestionText); //prints the question's text
                 Random rnd = new Random();
                 int q = rnd.Next(2, 5);
                 int locOfCorrect = 0;
@@ -302,7 +312,7 @@ namespace Trivia_Stage1.UI
             Console.WriteLine("Total Points:"+LoggedPlayer.Points);
             //because of the ranking being a foreign key to the table of rank names ther was a need for another method which gets the rank name by the player's rankId
             Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
-            Console.WriteLine("Questions made:"+LoggedPlayer.QuestionsMade);
+            Console.WriteLine("Questions made:"+Context.QuestionsMadeByPlayer(LoggedPlayer));
             Console.WriteLine("Password:"+LoggedPlayer.Password);
             Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
             //asks the user if it wants to changed the email, password or username of their account
