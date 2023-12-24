@@ -10,6 +10,24 @@ namespace Trivia_Stage1.Models
     public partial class TriviaContext
     {
         /// <summary>
+        /// Gets player details from the databases by the player id
+        /// </summary>
+        /// <param name="id">player id</param>
+        /// <returns>player details from the specified id</returns>
+        public Player GetPlayerByIdWithDetails(int playerid)
+        {
+            try
+            {
+                return this.Players.Where(p => p.PlayerId == playerid).Include(p => p.Questions).Include(p => p.Rank).FirstOrDefault();
+            }
+            catch 
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
         /// Advances specified player's rank
         /// </summary>
         /// <param name="Player">specified player</param>
@@ -113,22 +131,6 @@ namespace Trivia_Stage1.Models
                 SaveChanges();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
-        }
-        /// <summary>
-        /// Gets the rankName of the requested player
-        /// </summary>
-        /// <param name="player">requested player</param>
-        /// <returns>a string that is the player's rank</returns>
-        public string GetRankByPlayer(Player player)
-        {
-            try
-            {
-              return this.Ranks.Where(x=>x.RankId==player.RankId).FirstOrDefault().RankName;
-            }
-            catch
-            {
-                return null;
-            }
         }
         /// <summary>
         /// Gets a player by entered email

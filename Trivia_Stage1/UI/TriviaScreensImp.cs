@@ -32,7 +32,12 @@ namespace Trivia_Stage1.UI
             string password = Console.ReadLine();//gets the password from the user
             try
             {
-                if (LoggedPlayer.Password == password) logged = true;//checks if the password of the playerByEmail is the same as teh inputed password
+                if (LoggedPlayer.Password == password)
+                {
+                    LoggedPlayer=Context.GetPlayerByIdWithDetails(LoggedPlayer.PlayerId);
+                     logged = true;
+                }
+                //checks if the password of the playerByEmail is the same as teh inputed password
                 //if not the loggin will fail
                 //and if the player is null (player with this email does not exist or something else(why try is great!)) 
                 //the login will also fail by catching the exception
@@ -105,7 +110,9 @@ namespace Trivia_Stage1.UI
             Console.ResetColor();
             try//try is used here in case of an exception and the signup not working
             {
-                this.LoggedPlayer = Context.SignUp(name, password, email);//this method adds the new player to the database and saves chenges
+                this.LoggedPlayer = Context.SignUp(name, password, email);
+                LoggedPlayer = Context.GetPlayerByIdWithDetails(LoggedPlayer.PlayerId);
+                //this method adds the new player to the database and saves chenges
                 //if the email already exists or any other exception happens the method throws an according exception
                 //which is caught here and written for the user to know
                 //if no exception is caught untill here sign up then was successful
@@ -126,7 +133,7 @@ namespace Trivia_Stage1.UI
             return signed;
         }
 
-        public void ShowAddQuestion()
+        public void ShowAddQuestion()//made by aviv
         {
             ClearScreenAndSetTitle("Add Question");
             if (LoggedPlayer.Points == 100)//if the player has enough points
@@ -143,7 +150,7 @@ namespace Trivia_Stage1.UI
                 int num; int.TryParse(Console.ReadLine(), out num);
                 //Gets all of the info for the question.
                 Context.AddQuestion(text, right, wrong1, wrong2, wrong3, LoggedPlayer, num); //adds the question
-                if(Context.QuestionsMadeByPlayer(LoggedPlayer)>=10)
+                if(LoggedPlayer.Questions.Where(x => x.Player == LoggedPlayer).Count() >= 10)
                 {
                     Context.AdvanceRank(LoggedPlayer);
                 }
@@ -165,7 +172,7 @@ namespace Trivia_Stage1.UI
             if (LoggedPlayer.RankId == 1)//if the logged player is a rookie
             {
                 isContinue = false;
-                Console.WriteLine(Context.GetRankByPlayer(LoggedPlayer) + " can't approve a question in this rank. progress ranks to approve questions");
+                Console.WriteLine(LoggedPlayer.Rank.RankName + " can't approve a question in this rank. progress ranks to approve questions");
                 Console.WriteLine("press any key to continue");
                 Console.ReadKey(true);
             }
@@ -306,81 +313,100 @@ namespace Trivia_Stage1.UI
         public void ShowProfile()//made by Idan
         {
             ClearScreenAndSetTitle("Profile");
-            //displays all of the logged players properties(as requested)
-            Console.WriteLine("Email:" + LoggedPlayer.Email);
-            Console.WriteLine("Username:" + LoggedPlayer.PlayerName);
-            Console.WriteLine("Total Points:"+LoggedPlayer.Points);
-            //because of the ranking being a foreign key to the table of rank names ther was a need for another method which gets the rank name by the player's rankId
-            Console.WriteLine("Rank:"+Context.GetRankByPlayer(LoggedPlayer));
-            Console.WriteLine("Questions made:"+Context.QuestionsMadeByPlayer(LoggedPlayer));
-            Console.WriteLine("Password:"+LoggedPlayer.Password);
+            try
+            {
+                //displays all of the logged players properties(as requested)
+                Console.WriteLine("Email:" + LoggedPlayer.Email);
+                Console.WriteLine("Username:" + LoggedPlayer.PlayerName);
+                Console.WriteLine("Total Points:"+ LoggedPlayer.Points);
+                //because of the ranking being a foreign key to the table of rank names ther was a need for another method which gets the rank name by the player's rankId
+                Console.WriteLine("Rank:"+ LoggedPlayer.Rank.RankName);
+                Console.WriteLine("Questions made:"+LoggedPlayer.Questions.Where(x => x.Player == LoggedPlayer).Count());
+                Console.WriteLine("Password:"+ LoggedPlayer.Password);
+            }
+            catch
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("displaying player detials failed");
+                Console.ResetColor();
+                return;
+            }
             Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
             //asks the user if it wants to changed the email, password or username of their account
             char c = Console.ReadKey(true).KeyChar;
             while (c=='p'||c=='u'||c=='e')//this is a while and not an if because of the possibility that the player wants to change multiple attributes
             {
-                //changing password
-                if(c == 'p')
+                try
                 {
-                    Console.Write("Please Type your new password: ");
-                    string password = Console.ReadLine();
-                    //gets a password from the player and checks if it's valid or not
-                    //like it was done in the sign up
-                    while (!IsPasswordValid(password))
+                    //changing password
+                    if(c == 'p')
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("password must be at least 4 characters! Please try again: ");
-                        Console.ResetColor();
-                        password = Console.ReadLine();
-                    }
-                    //this method is a bool that changes the logged player's password and saves changes and returns true if it was changed
-                    if (Context.ChangePassword(LoggedPlayer, password))
+                        Console.Write("Please Type your new password: ");
+                        string password = Console.ReadLine();
+                        //gets a password from the player and checks if it's valid or not
+                        //like it was done in the sign up
+                        while (!IsPasswordValid(password))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("password must be at least 4 characters! Please try again: ");
+                            Console.ResetColor();
+                            password = Console.ReadLine();
+                        }
+                        //this method is a bool that changes the logged player's password and saves changes and returns true if it was changed
+                        if (Context.ChangePassword(LoggedPlayer, password))
                         
-                    {
-                        Console.WriteLine("Change succesful!");
-                    }
+                        {
+                            Console.WriteLine("Change succesful!");
+                        }
 
+                    }
+                    //changing username
+                    if (c == 'u')
+                    {
+                        Console.Write("Please Type your new Name: ");
+                        string name = Console.ReadLine();
+                        //gets a name from the player and checks if it's valid or not
+                        //like it was done in the sign up
+                        while (!IsNameValid(name))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("name must be at least 3 characters! Please try again: ");
+                            Console.ResetColor();
+                            name = Console.ReadLine();
+                        }
+                        //this method is a bool that changes the logged player's name and saves changes and returns true if it was changed
+                        if (Context.ChangeName(LoggedPlayer, name))
+                        {
+                            Console.WriteLine("Change succesful!");
+                        }
+                    }
+                    //changing email
+                    if (c == 'e')
+                    {
+                        Console.Write("Please Type your new email: ");
+                        string email = Console.ReadLine();
+                        //gets an email from the player and checks if it's valid or not
+                        //like it was done in the sign up
+                        while (!IsEmailValid(email))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("Bad Email Format! Please try again:");
+                            Console.ResetColor();
+                            email = Console.ReadLine();
+                        }
+                        //this method is a bool that changes the logged player's email and saves changes and returns true if it was changed
+                        //also returns false if a player with this email already exists
+                        if (Context.ChangeEmail(LoggedPlayer, email))
+                        {
+                            Console.WriteLine("Change succesful!");
+                        }
+                    }
                 }
-                //changing username
-                if (c == 'u')
+                catch
                 {
-                    Console.Write("Please Type your new Name: ");
-                    string name = Console.ReadLine();
-                    //gets a name from the player and checks if it's valid or not
-                    //like it was done in the sign up
-                    while (!IsNameValid(name))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("name must be at least 3 characters! Please try again: ");
-                        Console.ResetColor();
-                        name = Console.ReadLine();
-                    }
-                    //this method is a bool that changes the logged player's name and saves changes and returns true if it was changed
-                    if (Context.ChangeName(LoggedPlayer, name))
-                    {
-                        Console.WriteLine("Change succesful!");
-                    }
-                }
-                //changing email
-                if (c == 'e')
-                {
-                    Console.Write("Please Type your new email: ");
-                    string email = Console.ReadLine();
-                    //gets an email from the player and checks if it's valid or not
-                    //like it was done in the sign up
-                    while (!IsEmailValid(email))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("Bad Email Format! Please try again:");
-                        Console.ResetColor();
-                        email = Console.ReadLine();
-                    }
-                    //this method is a bool that changes the logged player's email and saves changes and returns true if it was changed
-                    //also returns false if a player with this email already exists
-                    if (Context.ChangeEmail(LoggedPlayer, email))
-                    {
-                        Console.WriteLine("Change succesful!");
-                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("changing details failed.try again");
+                    Console.ResetColor();
                 }
                 //here the user has an option to change something again or exit the screen
                 Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");

@@ -5,7 +5,7 @@ CREATE TABLE [Rank] (
   RankName VARCHAR(200)
 );
 CREATE TABLE Players (
-  PlayerId INT IDENTITY(0,1) PRIMARY KEY,
+  PlayerId INT IDENTITY(1,1) PRIMARY KEY,
   Email VARCHAR(255),
   [Password] varchar(255),
   PlayerName VARCHAR(200),
