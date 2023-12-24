@@ -324,11 +324,13 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("Questions made:"+LoggedPlayer.Questions.Where(x => x.Player == LoggedPlayer).Count());
                 Console.WriteLine("Password:"+ LoggedPlayer.Password);
             }
-            catch
+            catch//if there are any exceptions while trying to display the details
             {
+                ClearScreenAndSetTitle("Profile");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("displaying player detials failed");
                 Console.ResetColor();
+                Console.ReadKey(true);
                 return;
             }
             Console.WriteLine("To change the password press p. To change username press u. To Change email press e.To exist press anything else");
