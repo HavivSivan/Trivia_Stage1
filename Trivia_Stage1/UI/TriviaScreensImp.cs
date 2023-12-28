@@ -236,7 +236,9 @@ namespace Trivia_Stage1.UI
                 }
                 catch
                 {
-                    Console.WriteLine("Oops, question could not generate");
+                    Console.WriteLine("Oops, question could not generate. Press any key to return to the menu");
+                    Console.ReadKey(true);
+                    return;
                 }
                 Console.WriteLine(question.QuestionText); //prints the question's text
                 Random rnd = new Random();

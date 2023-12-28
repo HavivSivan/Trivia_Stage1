@@ -150,7 +150,13 @@ namespace Trivia_Stage1.Models
         {
             Random rnd = new Random();
             int questionId = rnd.Next(1, (this.Questions.Count() + 1));
-            return this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
+            Question question = this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q=>q.Subject).FirstOrDefault();
+            while (question == null)
+            {
+                questionId = rnd.Next(1, (this.Questions.Count() + 1));
+                question = this.Questions.Where(Question => Question.QuestionId == questionId && Question.StatusId == 2).Include(q => q.Subject).FirstOrDefault();
+            }
+            return question;
         }
         /// <summary>
         /// gets the first question in the database that is pending
