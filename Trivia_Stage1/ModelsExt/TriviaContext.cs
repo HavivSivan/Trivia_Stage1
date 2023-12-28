@@ -10,6 +10,49 @@ namespace Trivia_Stage1.Models
     public partial class TriviaContext
     {
         /// <summary>
+        /// Gets player details from the databases by the player id
+        /// </summary>
+        /// <param name="id">player id</param>
+        /// <returns>player details from the specified id</returns>
+        public Player GetPlayerByIdWithDetails(int playerid)
+        {
+            try
+            {
+                return this.Players.Where(p => p.PlayerId == playerid).Include(p => p.Questions).Include(p => p.Rank).FirstOrDefault();
+            }
+            catch 
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
+        /// Advances specified player's rank
+        /// </summary>
+        /// <param name="Player">specified player</param>
+        public void AdvanceRank(Player Player)
+        {
+            if(Player.RankId<2)Player.RankId++;
+            SaveChanges();
+        }
+        /// <summary>
+        /// Finds the amount of questions a player made
+        /// </summary>
+        /// <param name="player">requested player</param>
+        /// <returns>number of questions requested player made</returns>
+        public int QuestionsMadeByPlayer(Player player)
+        {
+            try
+            {
+                return this.Questions.Where(x  => x.Player == player).Count();
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+        /// <summary>
         /// Changes the requested player's email
         /// </summary>
         /// <param name="player">The email of the player's email you want to changed</param>
@@ -84,27 +127,16 @@ namespace Trivia_Stage1.Models
             {
                 Question question = new Question() { PlayerId=player.PlayerId, Correct=correct_, Incorrect1=wrong1_, Incorrect2 = wrong2_, Incorrect3 = wrong3_, QuestionText=text_, SubjectId=subject_, StatusId=1, };
                 this.Questions.Add(question);
-                
+                player.Points = 0;
                 SaveChanges();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("Failed, please try again."); }
         }
         /// <summary>
-        /// Gets the rankName of the requested player
+        /// Gets a player by entered email
         /// </summary>
-        /// <param name="player">requested player</param>
-        /// <returns>a string that is the player's rank</returns>
-        public string GetRankByPlayer(Player player)
-        {
-            try
-            {
-              return this.Ranks.Where(x=>x.RankId==player.RankId).FirstOrDefault().RankName;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        /// <param name="email">email</param>
+        /// <returns>returns a player with this email or null if it doesn't exist</returns>
         public Player GetPlayerByEmail(string email)
         {
             try
@@ -130,7 +162,7 @@ namespace Trivia_Stage1.Models
             {
                 throw new Exception("Email already exists");
             }
-            Player p = new Player() {Email=email,PlayerName=username,Password=password,RankId=1,Points=0,QuestionsMade=0 };
+            Player p = new Player() {Email=email,PlayerName=username,Password=password,RankId=1,Points=0};
             try//if adding the new player fails
             {
                 this.Players.Add(p);

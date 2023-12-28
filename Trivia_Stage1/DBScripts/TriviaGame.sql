@@ -5,21 +5,19 @@ CREATE TABLE [Rank] (
   RankName VARCHAR(200)
 );
 CREATE TABLE Players (
-  PlayerId INT IDENTITY(0,1) PRIMARY KEY,
+  PlayerId INT IDENTITY(1,1) PRIMARY KEY,
   Email VARCHAR(255),
   [Password] varchar(255),
   PlayerName VARCHAR(200),
-  Ranking INT,
+  RankId INT,
   Points INT,
-  QuestionsMade INT
-  CONSTRAINT FK_Ranking 
-  FOREIGN KEY (Ranking)
+  CONSTRAINT FK_RankId
+  FOREIGN KEY (RankId)
   REFERENCES [Rank](RankId)
 );
-
 CREATE TABLE QuestionStatus (
   StatusId INT IDENTITY(1,1) PRIMARY KEY,
-  [Status] VARCHAR(200)
+  StatusName VARCHAR(200)
 );
 
 CREATE TABLE Subjects(
@@ -46,8 +44,6 @@ CREATE TABLE Questions (
   FOREIGN KEY (StatusId)
   REFERENCES QuestionStatus(StatusId)
 );
-INSERT INTO Players (Email,[Password], PlayerName, Ranking, Points, QuestionsMade)
-  VALUES ('Admin@yahoo.com','1234', 'Admin', 3, 0, 5)
 INSERT INTO Rank (RankName)
   VALUES ('Trainee')
 INSERT INTO Rank (RankName)
@@ -64,22 +60,24 @@ INSERT INTO Subjects (SubjectName)
   VALUES ('Science')
 INSERT INTO Subjects (SubjectName)
  VALUES ('Ramon')
-INSERT INTO QuestionStatus (Status)
+INSERT INTO QuestionStatus (StatusName)
   VALUES ('Pending')
-INSERT INTO QuestionStatus (Status)
+INSERT INTO QuestionStatus (StatusName)
   VALUES ('Approved')
-INSERT INTO QuestionStatus (Status)
+INSERT INTO QuestionStatus (StatusName)
   VALUES ('Declined')
   use Trivia
+INSERT INTO Players (Email,[Password], PlayerName, RankId, Points)
+  VALUES ('Admin@yahoo.com','1234', 'Admin', 3, 0)
 SET IDENTITY_INSERT  [Trivia].[dbo].[Questions]  ON 
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
-  VALUES (1,1, '90 minutes', '43 minutes','80 minutes','110 minutes','How long is a soccer game?', 1,1)
+  VALUES (1,1, '90 minutes', '43 minutes','80 minutes','110 minutes','How long is a soccer game?', 1,2)
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
-  VALUES (2,1, 'Barack Hussein Obama', 'Obama Care','Donald Johnathan Trump','George Herbert Walker Bush','Who was the 44th PotUS?', 2,1)
+  VALUES (2,1, 'Barack Hussein Obama', 'Obama Care','Donald Johnathan Trump','George Herbert Walker Bush','Who was the 44th PotUS?', 2,2)
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
-  VALUES (3,1, 'THE DUTCH', 'THE BRITS','THE GERMANS','THE MURICANS','Who started the slave trade?', 3,1)
+  VALUES (3,1, 'THE DUTCH', 'THE BRITS','THE GERMANS','THE MURICANS','Who started the slave trade?', 3,2)
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
-  VALUES (4,1, '299 792 458','3x10^8 ','9x10^23','1','What is the speed of light? (m/s)', 4,1)
+  VALUES (4,1, '299 792 458','3x10^8 ','9x10^23','1','What is the speed of light? (m/s)', 4,2)
 INSERT INTO Questions (QuestionId,PlayerId, Correct, Incorrect1, Incorrect2, Incorrect3, QuestionText, SubjectId, StatusId)
-  VALUES (5,1, '2005', '2003','2010','1995','When was Ramon high school established?', 5,1)
+  VALUES (5,1, '2005', '2003','2010','1995','When was Ramon high school established?', 5,2)
   SET IDENTITY_INSERT [Trivia].[dbo].[Questions]  Off 
