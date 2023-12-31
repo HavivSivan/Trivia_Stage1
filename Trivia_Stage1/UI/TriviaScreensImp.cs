@@ -16,6 +16,7 @@ namespace Trivia_Stage1.UI
         //For example, player login details...
         public Player LoggedPlayer { get;private set; }
         private TriviaContext Context = new TriviaContext();
+        public const int RANKUPPOINTS = 10;
 
         //Implememnt interface here
         public bool ShowLogin()//Made by Idan
@@ -150,9 +151,10 @@ namespace Trivia_Stage1.UI
                 int num; int.TryParse(Console.ReadLine(), out num);
                 //Gets all of the info for the question.
                 Context.AddQuestion(text, right, wrong1, wrong2, wrong3, LoggedPlayer, num); //adds the question
-                if(LoggedPlayer.Questions.Where(x => x.Player == LoggedPlayer).Count() >= 10)
+                if(LoggedPlayer.Questions.Where(x => x.Player == LoggedPlayer).Count() >= RANKUPPOINTS)
                 {
-                    Context.AdvanceRank(LoggedPlayer);
+                    Context.AdvanceRank(LoggedPlayer);//adavnces rank
+                    LoggedPlayer = Context.GetPlayerByIdWithDetails(LoggedPlayer.PlayerId);//updates the pointer to a new player with the correct rank (for the profile)
                 }
                 Console.WriteLine("\nQuestion submitted successfully! Press any key to continue.");
                 Console.ReadKey(true);//end
@@ -172,7 +174,7 @@ namespace Trivia_Stage1.UI
             if (LoggedPlayer.RankId == 1)//if the logged player is a rookie
             {
                 isContinue = false;
-                Console.WriteLine(LoggedPlayer.Rank.RankName + " can't approve a question in this rank. progress ranks to approve questions");
+                Console.WriteLine("you are a " + LoggedPlayer.Rank.RankName + ". this rank can't approve a question. progress ranks to approve questions");
                 Console.WriteLine("press any key to continue");
                 Console.ReadKey(true);
             }
@@ -238,7 +240,6 @@ namespace Trivia_Stage1.UI
                     isContinue = false;
                 }
             }
-            //Admin@yahoo.com
         }
         public void ShowGame() //made by ofek
         {
